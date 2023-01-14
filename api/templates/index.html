@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--meta http-equiv="X-UA-Compatible" content="IE=edge"-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/c.css' ) }}">
+    <!--link rel="stylesheet" href="c.css"-->
+    <title>Document</title>
+</head>
+<body onload="arranque()">
+        <div id="padre" style="position:relative;">
+            <div id="porAhora" style="position: absolute;"></div><!--para usar z-index las cordenadas deben tener position absolute-->
+            <div id="root" style="z-index: 1000; position: absolute; top: 0; left: 0; right: 0; margin: 0 auto;"></div>  
+        </div>
+</body>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/bloque.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/arranque.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/modal.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/prueba.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/micropartesComponentes.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/animaciones.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/edicionObjetos.js') }}"></script>
+<!--script src="/bloque.js"></!--script>
+<script src="/arranque.js"></script>
+<script src="/modal.js"></script>
+<script src="/prueba.js"></script>
+<script src="/micropartesComponentes.js"></script>
+<script src="/animaciones.js"></script>
+<script-- src="/edicionObjetos.js"></script-->
+</html>
