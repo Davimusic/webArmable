@@ -1,5 +1,21 @@
 body{
-    background: black;
+    background: rgba(0, 0, 0, 0.322);
+}
+
+.inputColor{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    width: 60px;
+    height: 60px;
+    border: none;
+    cursor: pointer;
+}
+
+input::-webkit-color-swatch{
+    border-radius: 50%;
+    border: none;
 }
 
 div::-webkit-scrollbar, select::-webkit-scrollbar, textarea::-webkit-scrollbar {
@@ -52,7 +68,7 @@ button:hover{
 
 .mi:hover{
     rotate: 60deg;
-    background: darkblue;
+    background: #175555c5;
 }
 
 .sombra{
@@ -74,6 +90,7 @@ button:hover{
     transition: 1s;
 }
 
+
 .efectoResaltar:hover{
     background: rgba(70, 71, 69, 0.589);
     box-shadow: 2px 3px 17px 7px rgba(0,0,0,0.52);
@@ -81,7 +98,95 @@ button:hover{
     -moz-box-shadow: 2px 3px 17px 7px rgba(0,0,0,0.52);
 }
 
-h3{
+h3, h4{
     margin: 0px;
 }
 
+.parallax {
+    /* Set a specific height 
+    min-height: 500px; */
+    background-image: 'https://res.cloudinary.com/dplncudbq/image/upload/v1658433064/mias/g1_yrky0z.jpg';
+    
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
+
+.saltoDeLinea{
+    white-space: pre-line;
+}
+
+/**text area*/
+textarea{
+    resize: none;
+}
+
+
+/** para el input range**/
+input[type='range'] {
+    display: inline-block;
+    
+}
+    
+input[type='range']:focus {
+    outline: none;
+}
+    
+input[type='range'],
+input[type='range']::-webkit-slider-runnable-track,
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+}
+    
+input[type=range]::-webkit-slider-thumb {
+    background-color: #777;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #333;
+    border-radius: 50%;
+    margin-top: -9px;
+}
+    
+input[type=range]::-moz-range-thumb {
+    background-color: #777;
+    width: 15px;
+    height: 15px;
+    border: 3px solid #333;
+    border-radius: 50%;
+}
+
+input[type=range]::-ms-thumb {
+    background-color: #777;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #333;
+    border-radius: 50%;
+}
+    
+input[type=range]::-webkit-slider-runnable-track {
+    background-color: #777;
+    height: 3px;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    outline: none;
+}
+
+input[type=range]::-moz-range-track {
+    background-color: #777;
+    height: 3px;
+}
+    
+input[type=range]::-ms-track {
+    background-color: #777;
+    height: 3px;
+}
+
+input[type=range]::-ms-fill-lower {
+    background-color: HotPink
+}
+
+input[type=range]::-ms-fill-upper {
+    background-color: black;
+} 

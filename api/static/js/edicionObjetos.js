@@ -1,16 +1,14 @@
-let arrClases = [' ', 'opcionSeleccionable ', 'sombra ', 'anchoMinimo ', 'anchoMaximo ', 'alturaMinina ', 'alturaMaxima ', 'mi ', 'efectoResaltar ', 'organizarPorFilas ', 'organizarPorColumnas ', 'color ', 'girar90 ']
-let arrEventos = [' ', `rotar`, `cambiarColor`, `opacidad`, `desplazar`, `cambiarTamano`]
-let idElementoEnUso = ''
+let idElementoEnUso = '', arrLinks = []
 
 function modalAtributos(bloqueID){
     let llavePrincipal = buscarBloque(bloqueID)
-    actualizarBloqueEnUso(bloqueID)
-
     let tipo = "", arrTitulos = [], arrContenidos = []
+    let diccTipos = {'img': 'imagen', 'text': 'texto', 'div': 'contendor', 'espacio': 'espacio', 'video': 'video'}
 
     let u = 0;
     for (tipoAUsar in diccionario[llavePrincipal]) {
         tipo = tipoAUsar
+        actualizarBloqueEnUso(`${diccTipos[tipo]} con id ùnico ${bloqueID}`)
         for (tituloContenido in diccionario[llavePrincipal][tipoAUsar]) {
             arrTitulos.push(tituloContenido)
             arrContenidos.push([])
@@ -32,15 +30,15 @@ function modalAtributos(bloqueID){
                 if(arrTitulos[u] != 'id'){// no me deja mostrar el ID ya que no tiene lògica que lo modifique 
                     codArre += `
                     <div id=${arrTitulos[u]}></div>
-                    <div style="max-height: 400px; overflow-y: auto; padding-right: 1%; padding-left: 1%; padding-bottom: 1%; border-radius: 0.5em; background: #1e7070; color:white;">
+                    <div style="max-height: 300px; overflow-y: auto; padding-right: 1%; padding-left: 1%; padding-bottom: 1%; border-radius: 0.5em; background: #1e7070; color:white;">
                         <div style="position: sticky; top: 0; z-index: 1; padding-top:1%; background: #1e7070; display:flex; justify-content: space-between;">
                             <h3>${arrTitulos[u]}</h3>`
-                        if(arrTitulos[u] != 'eventos'){
+                        if(arrTitulos[u] != 'tipo' && arrTitulos[u] != 'eventos' && arrTitulos[u] != 'style' && arrTitulos[u] != 'crearNuevo'){
                             codArre += `
-                            <img  style="border-radius: 50%; width: 50px; height: 50px;" onclick="crearItem(${idItem}, ${nombreDicPadre})"  src="https://res.cloudinary.com/dplncudbq/image/upload/v1669597776/nuevo_dwrcbu.png">`
+                            <img class='opcionSeleccionable' style="border-radius: 50%; width: 50px; height: 50px;" onclick="crearItem(${idItem}, ${nombreDicPadre})"  src="https://res.cloudinary.com/dplncudbq/image/upload/v1669597776/nuevo_dwrcbu.png">`
                         }
                     codArre += `
-                    </div>`
+                        </div>`
                     //console.log(arrTitulos);
                     //console.log(arrContenidos);
                     for (let i = 0; i < arrContenidos[u].length; i++) {
@@ -66,20 +64,34 @@ function modalAtributos(bloqueID){
     ActivarModal(codArre)
 }
 
-function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreDicPadre ){
+function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreDicPadre){
+    //console.log(`entra ` + text);
+    let arrClases = [' ', 'opcionSeleccionable ', 'sombra ', 'anchoMinimo ', 'anchoMaximo ', 'alturaMinina ', 'alturaMaxima ', 'mi ', 'efectoResaltar ', 'organizarPorFilas ', 'organizarPorColumnas ', 'color ', 'girar90 ']
+    let arrTipos = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7' ]
+    let arrDisplay = ['flex', 'block']
+    let arrTexto = [' ', 'negrita', 'hiperLink']
+    let arrOpcionConRelativo = ['pixeles', 'porcentajes', 'relativo']
+    let arrOpcionSinRelativo = ['pixeles', 'porcentajes']
+    let arreObjetosCreables = ['contenedor', 'imagen', 'texto']
+        
     let cod = ''
     if(text == 'class'){
+
         cod += `${retornarSelects(id, arrClases, 'onchange="actualizarDicc(this.id, this.value)"', opcionActual)}
                 ${retornarBotonBorrar(`'${id}'`, i, nombreDicPadre, opcionActual)}`
-    } else {
-        if(text == 'eventos'){
-            //console.log(opcionActual);
+
+    } else if(text == 'eventos'){
+        
         let diccEventos = {'0': 'click', '1': 'pasar el mouse', '2': 'sacar el mouse'}   
         let arr = crearArreglo(id, '$') 
+        //console.log(`diccEventos[arr[3]]: ${diccEventos[arr[3]]},\n opcionActual: ${opcionActual}`)
         cod += `<div style = 'display:block; width: 100%;'>
-                    <h3>${diccEventos[arr[3]]}</h3>
-                    ${retornarOpcionesEventos(id, nombreDicPadre, i)}`
+                    <h3>${diccEventos[arr[3]]}</h3>`
             for (let u = 0; u < opcionActual.length; u++) {
+                if(u == 0){
+                    cod += `${retornarOpcionesEventos(id, nombreDicPadre, i, u, diccEventos[arr[3]])}`
+                }
+                
                 let idEventos = `${id}$${u}`, idEventosBorrar = "`" + idEventos + "`"
                 if(i != 0 && u != 0  || u != 0){ // no deja mostrar la primera posicion del arreglo eventos click porque este es inyectado para poder usar el modal
                     cod += `<div style='display: flex;'>
@@ -89,28 +101,195 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
                 }
             }
         cod += `</div>`    
+        
+    } else if(text == 'tipo') {
+            
+        cod += `${retornarSelects(id, arrTipos, 'onchange="actualizarDicc(this.id, this.value)"', opcionActual)}`
+           // ${retornarBotonBorrar(`'${id}'`, i, nombreDicPadre, opcionActual)}
 
-        } else {
-            cod += retornarInput(opcionActual, id)
-            cod += retornarBotonBorrar(`'${id}'`, i, nombreDicPadre, opcionActual)
+    } else if(text == 'style') {
+        
+        //cod += `<div style='display: flex; flex-wrap: wrap; justify-content: space-between;'>`
+        //console.log(`estilos: opcionActual: ${opcionActual}, largo: ${opcionActual. length}`);
+        for (let u = 0; u < opcionActual.length; u++) {
+            if(u == 0){
+            cod += `<h3>${opcionActual[0]}</h3>`
+            } else {
+                let palabras = separarPalabra(opcionActual[u], ':'), acc = "`"
+                
+                cod += `<div style='display: block;'>
+                            <h4>${palabras[0]}</h4>`
+
+                if(opcionActual[0] == 'margen' || opcionActual[0] == 'relleno'){
+
+                    cod +=  `${retornarSelects(`${id}$filtarPaso`, arrOpcionSinRelativo, `onchange="actualizarSelect(${acc}${id}$${u}${acc}, this.value, ${acc}${palabras[0]}${acc})"`, retornarValorSelectStyle(palabras[1]))}
+                            ${retornarSelects(`${id}$${u}`, retornarArregloSelectStyle(retornarValorSelectStyle(palabras[1])), `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
+                
+                } else if(opcionActual[0] == 'ancho'|| opcionActual[0] == 'alto'){
+                    
+                    cod +=  `${retornarSelects(`${id}$filtarPaso`, arrOpcionConRelativo, `onchange="actualizarSelect(${acc}${id}$${u}${acc}, this.value, ${acc}${palabras[0]}${acc})"`, retornarValorSelectStyle(palabras[1]))}
+                            ${retornarSelects(`${id}$${u}`, retornarArregloSelectStyle(retornarValorSelectStyle(palabras[1])), `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
+                
+                } else if(opcionActual[0] == 'radio de borde'){
+                    
+                    cod += `${retornarSelects(`${id}$${u}`, retornarArregloConRangoNumerico(0, 1, 0.1, 'em'), `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
+                
+                } else if(opcionActual[0] == 'color letra'  || opcionActual[0] == 'fondo'){
+                    
+                    let infColor = RgbaToHex(palabras[1])
+                    cod += `<input class='inputColor' style='border-radius: 0.7em; border: none;' id='${id}$${u}$color' value='${infColor[0]}' type='color'>
+                            <input class='inputRange' type="range" id='${id}$${u}$transparencia' value='${infColor[1] * 10}' name="transparencia" min="0" max="10">
+                            <img style="border-radius: 50%; width: 50px; height: 50px;" onclick="actualizarColor('${id}$${u}' , '${id}$${u}$color', '${id}$${u}$transparencia', '${palabras[0]}')" src="https://res.cloudinary.com/dplncudbq/image/upload/v1669597776/nuevo_dwrcbu.png">
+                            `
+                } else if(opcionActual[0] == 'mostrar en modo'){
+                    cod += `${retornarSelects(`${id}$${u}`, arrDisplay, `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
+                }   
+                
+                cod += `</div>`        
+            }
         }
+        //cod += '</div>'
+            
+    } else if(text == 'texto'){
+        //console.log(`texto, opcionActual: ${opcionActual}`);
+        for (let u = 0; u < opcionActual.length; u++) {
+            if(u == 0){
+                console.log(`desde texto, opcionActual: ${opcionActual}, text: ${text}, id: ${id}, idItem: ${idItem}, i: ${i}, nombreDicPadre: ${nombreDicPadre}`);
+                
+                cod += retornarTextArea(agregarSaltosDeLinea(opcionActual[0], 'º', '\n'), `${id}$0`, i)
+                cod += `<div style='margin-left: 3%; display: block;'>
+                            <h4>Acciòn adicional</h4>`
+                cod += `    ${retornarSelects(`${id}$1`, arrTexto, `onchange="actualizarDicc(this.id, this.value), activarInput('${`${id}$2`}', 'ingrese el link a usar', this.value)"`, opcionActual[1])}
+                        </div>`
+                cod += retornarInput('', `${id}$2`, 'esconder')
+                cod += retornarBotonBorrar(`'${id}'`, i, nombreDicPadre, opcionActual, `'${text}'`)  
+                arrLinks.push(`${id}`)    
+            }
+        }
+                
+    } else if(text == 'crearNuevo'){
+
+        cod += `${retornarSelects(id, arreObjetosCreables, 'onchange="crearNuevoObjeto(this.id, this.value)"', opcionActual)}`
+
+    } else {
+        cod += retornarInput(opcionActual, id)
+        cod += retornarBotonBorrar(`'${id}'`, i, nombreDicPadre, opcionActual)
     }
     return cod
 }
 
-function retornarOpcionesEventos(id, nombreDicPadre, i){
-    let idOpciones = `opcionesEvento${id}${i}`
+function crearNuevoObjeto(id, valor){
+    console.log(diccionario);
+    let idPaso = 'img3', acc = '`'
+    let cod = {"img": {
+        "id": [`img3`],
+        "link": ["https://res.cloudinary.com/dplncudbq/image/upload/v1657473822/mias/red-304573_xrlhrp.png"],
+        "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 25%"], ["alto", "height: 25%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 1)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
+        "class": ["prueba"],
+        "eventos": [[`modalAtributos(${acc}${idPaso}${acc})`], [`cambiarColor( ${acc}${idPaso}${acc},  ${acc}1${acc}, ${acc}rgba(33, 141, 173, 0.3)${acc}, ${acc}0.3${acc})`], [`cambiarColor(${acc}${idPaso}${acc},  ${acc}1${acc}, ${acc}rgba(33, 141, 173, 0.0)${acc}, ${acc}0${acc})`]]
+    }}
+
+    console.log(cod);    
+    let arr = []
+    for( i in diccionario){
+        console.log(diccionario[i]);
+        if(i == 2){
+            arr.push(cod)
+        }
+        arr.push(diccionario[i])
+    }
+    
+    diccionario = arr
+    console.log(diccionario);
+    traducirDiccionario('porAhora')
+}
+
+function retornarArregloSelectStyle(tipo) {
+    let arr = []
+    if(tipo == 'pixeles'){
+        arr = retornarArregloConRangoNumerico(0, 500, 20, 'px')
+    } else if(tipo == 'porcentajes'){
+        arr = retornarArregloConRangoNumerico(2, 100, 1, '%')
+    } else if(tipo == 'relativo') {
+        arr = ['min-content', 'max-content', 'fit-content']
+    }
+    return arr
+}
+
+function retornarValorSelectStyle(text){
+    let sel = ''//['pixeles', 'porcentajes', 'relativo]
+    if(text.indexOf('px') != -1){
+        sel = 'pixeles'
+    } else if(text.indexOf('%') != -1){
+        sel = 'porcentajes'
+    } else if(text.indexOf('min-content') != -1 || text.indexOf('max-content') != -1 || text.indexOf('fit-content') != -1){
+        sel = 'relativo'
+    }
+    //console.log(`retornarValorSelectStyle: ${text.indexOf('px')}`)
+    return sel
+}
+
+function actualizarColor(idDicc, idColor, idTransparencia, palabra, accion, nombreDicPadre, i){
+    let acc = "`"
+    let transparencia = 0.1 * parseInt(document.getElementById(idTransparencia).value)
+    let color = hexToRgba(document.getElementById(idColor).value, transparencia)
+    
+    if(accion == 'cambiarColor'){
+        let duracion = document.getElementById(`op0$${i}`).value
+        let text = `cambiarColor(${acc}${nombreDicPadre}${acc},  ${acc}${duracion}${acc}, ${acc}${color}${acc}, ${acc}${transparencia}${acc})`
+        //console.log(`text: ${text}`);
+        //console.log(`idDicc: ${idDicc}`);
+        actualizarDicc(idDicc, text)
+    } else {
+        actualizarDicc(idDicc, palabra + color)
+    }
+
+    //console.log(`idDicc: ${idDicc}, color: ${color}, transparencia: ${transparencia}, palabra: ${palabra}`);
+}
+
+function hexToRgba(hex, transparencia) {
+    console.log(`hex: ${hex}`);
+    let r = parseInt(hex.substring(1, 3), 16);
+    let g = parseInt(hex.substring(3, 5), 16);
+    let b = parseInt(hex.substring(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${transparencia.toFixed(1)})`;
+}
+
+function RgbaToHex(rgba){
+    let text = separarPalabra(rgba, '(')
+    text = separarPalabra(text[1], '(')
+    text = removerUltimoCaracter(text[0])
+    //console.log(text);
+    let valores = text.split(",");
+    //console.log(`valores: ${valores}`);
+    let r = parseInt(valores[0]).toString(16);
+    let g = parseInt(valores[1]).toString(16);
+    let b = parseInt(valores[2]).toString(16);
+    let a = valores[3];
+    let colorHex = "#" + r + g + b;
+    return [colorHex, a]
+}
+
+function retornarOpcionesEventos(id, nombreDicPadre, i, u, titulo){
+    let arrEventos = [' ', `rotar`, `cambiarColor`, `opacidad`, `desplazar`, `cambiarTamano`]
+    let idRuta = ``// en prueba aùn
+    if(titulo == 'click'){// porque la opcion cero es inyectada para editar
+        idRuta = `${id}$${u+1}`
+    } else {
+        idRuta = `${id}$${u}`
+    }
     let idSelectPadreEventos = `padreSelectEventos${id}$${i}`
-    let evento = `onchange="actualizarRequerimintosEventos('${idOpciones}', this.value, ${nombreDicPadre}, '${id}', ${i}, '${idSelectPadreEventos}')"`
+    let evento = `onchange="actualizarRequerimintosEventos('${idRuta}', this.value, ${nombreDicPadre}, '${id}', ${i}, '${idSelectPadreEventos}')"`
     let cod = `
     <div style='display: flex; flex-wrap: wrap; height: fit-content; margin: 2%; justify-content: space-around;'>
         ${retornarSelects(idSelectPadreEventos, arrEventos, evento )}
-        <div id='${idOpciones}' style='border-radius:0.5em; width: fit-content; height: fit-content; background: gray;'></div>
+        <div id='${idRuta}' style='display: flex; padding-right: 5%; padding-left: 5%; padding-top: 2%; border-radius:0.5em; width: fit-content; height: fit-content; background: #175555c5;'></div>
     </div>`
     return cod    
 }
 
-function actualizarRequerimintosEventos(idOpciones, evento, nombreDicPadre, id, i, idSelectPadreEventos){
+function actualizarRequerimintosEventos(idRuta, evento, nombreDicPadre, id, i, idSelectPadreEventos){
+    
     arrAccEventos = []
     let cod = ``, diccArr = {}, diccLabel = {}, diccOp = {}
 
@@ -124,13 +303,20 @@ function actualizarRequerimintosEventos(idOpciones, evento, nombreDicPadre, id, 
     } else if(evento == 'cambiarColor'){
         
         diccArr = {0: retornarArregloConRangoNumerico(1, 10, 1)}
-        diccLabel = {0: 'segundos', 1: 'color'}
+        diccLabel = {0: 'segundos', 1: 'color', 2: 'opacidad'}
         diccOp = {0: 2}
+        console.log(`actualizarRequerimintosEventos, idRuta: ${idRuta}, evento: ${evento}, nombreDicPadre: ${nombreDicPadre}, id: ${id}, i: ${i}, idSelectPadreEventos: ${idSelectPadreEventos}`);
         codigoAdicional = `<div style='display: block; margin: 10px; justify-content: space-around;'>
                                 <h3>Color</h3>
-                                <input id='op1$${i}' type="color">
+                                <input class='inputColor' style='border-radius: 0.7em; border: none;' id='op1$${i}' value='' type='color'>
+                            </div>
+                            <div style='display: block; margin: 10px; justify-content: space-around;'>
+                                <h3>Opacidad</h3>
+                                <input class='inputRange' type="range" id='op2$${i}' value='' name="transparencia" min="0" max="10">
                             </div>`
+
         cod += retornarOpcionesDetalladasEventos(diccArr, diccLabel, diccOp, i, codigoAdicional)
+        //cod += `<img  style="border-radius: 50%; width: 50px; height: 50px;" onclick="crearNuevoEvento()"  src="https://res.cloudinary.com/dplncudbq/image/upload/v1669597776/nuevo_dwrcbu.png">`
     } else if(evento == 'opacidad'){
 
         diccArr = {0: retornarArregloConRangoNumerico(0, 10, 1), 1: retornarArregloConRangoNumerico(0, 1, 0.2)}
@@ -158,11 +344,11 @@ function actualizarRequerimintosEventos(idOpciones, evento, nombreDicPadre, id, 
     let idU = eval(`diccionario[${arr[0]}].${arr[1]}.${arr[2]}[${arr[3]}].length`)
     arrAccEventos.push(id, nombreDicPadre, idU, i, Object.keys(diccLabel).length)
     console.log(arrAccEventos); 
-    document.getElementById(idOpciones).innerHTML = cod
+    document.getElementById(idRuta).innerHTML = cod
 }
 
 function retornarOpcionesDetalladasEventos(diccArr, diccLabel, diccOp, i, codigoAdicional){
-    let cod = ''
+    let cod = '', acc = ''
     cod += `<div style='display: flex; justify-content: space-around;'>`
         for (u in diccArr) {
             cod += `<div style='display: block; margin: 10px; justify-content: space-around;'>
@@ -170,8 +356,8 @@ function retornarOpcionesDetalladasEventos(diccArr, diccLabel, diccOp, i, codigo
                         ${retornarSelects(`op${u}$${i}`, diccArr[u],  '', diccOp[u])}
                     </div>`
         }
-    cod += codigoAdicional    
-    cod += `    <img  style="border-radius: 50%; width: 50px; height: 50px;" onclick="crearNuevoEvento()"  src="https://res.cloudinary.com/dplncudbq/image/upload/v1669597776/nuevo_dwrcbu.png">
+    cod += codigoAdicional 
+    cod += `    <img class='opcionSeleccionable'  style="border-radius: 50%; width: 50px; height: 50px;" onclick="crearNuevoEvento()"  src="https://res.cloudinary.com/dplncudbq/image/upload/v1669597776/nuevo_dwrcbu.png">
             </div>`    
     return cod    
 }
@@ -192,7 +378,7 @@ function crearNuevoEvento(){
         atributos += ` ${acc}${document.getElementById(`op${u}$${i}`).value}${acc},`
     }
     atributos = removerUltimoCaracter(atributos)
-    //console.log(atributos);
+    console.log(atributos);
     
     let event = `${animacion}(${acc}${nombreDicPadre}${acc}, ${atributos})`
     console.log(event);
@@ -201,4 +387,63 @@ function crearNuevoEvento(){
     modalAtributos(nombreDicPadre)
     arrAccEventos = []
     console.log(arrAccEventos);
+}
+
+function separarPalabra(palabra, referencia){
+    let arr = [], text = ''
+    for (let u = 0; u < palabra.length; u++) {
+        if(palabra[u] != ' '){
+            text += palabra[u]
+        }
+        
+        if(palabra[u] == referencia){
+            arr.push(text)
+            text = ''
+        } 
+    }
+    arr.push(text)
+    //console.log(arr);
+    return arr
+}
+
+function quitarSaltosDeLinea(text, id){
+    console.log(`quitarSaltosDeLinea, text: ${text}, id: ${id} `);
+    actualizarDicc(id, text.replace(/\n/g, "º"))
+    ///document.getElementById(id).value = text.replace(/\n/g, "º")
+}
+
+function agregarSaltosDeLinea(text, buscar, cambiar){
+    //console.log(`agregarSaltosDeLinea, ingresa: ${text}, buscar: ${buscar}, cambiar: ${cambiar}`)
+    return text.replace(/\º/g, cambiar)  
+}
+
+function activarInput(id, placeHolder, valor, contenido){
+    console.log(`id: ${id}`);
+    let obj = document.getElementById(id)
+    if(valor == 'hiperLink'){
+        obj.style.display = 'flex';
+        obj.placeholder= placeHolder;
+        if(contenido != undefined){
+            obj.value = contenido
+        }
+    } else {
+        obj.style.display = 'none';
+    }
+}
+
+function activarInputs(){
+    //console.log(arrLinks);
+    for (let u = 0; u < arrLinks.length; u++) {
+        //let id = `${arrLinks[u]}$1`
+        let arr = crearArreglo(`${arrLinks[u]}$1`, '$')
+        //console.log(arr);
+        ruta = `diccionario[${arr[0]}].${arr[1]}.${arr[2]}[${arr[3]}]`
+        //console.log(`ruta: ${ruta}`);
+        let opcion = eval(`${ruta}`)
+        //console.log(opcion);
+        if(opcion[1] == 'hiperLink'){
+            activarInput(`${arrLinks[u]}$${2}`,'','hiperLink', `${opcion[2]}`)
+        }
+    }
+    arrLinks = []
 }

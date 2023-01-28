@@ -38,9 +38,6 @@ function cambiarTamano(id, segundos, especificacion, tamano){
     eval(`objeto.style.${especificacion} = '${tamano}px'`)
 }
 
-
-
-
 function activarEventosScroll(arr){
     for (let u = 0; u < arr.length; u++) {
         eventoScroll(arr[u][0], arr[u][1])

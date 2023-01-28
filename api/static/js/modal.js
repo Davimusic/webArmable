@@ -11,6 +11,7 @@ function ActivarModal(contenido){
     } else {
 		if(contenido != undefined){
 			document.getElementById("root").innerHTML = modal(contenido)
+			setTimeout(activarInputs, 200)// esta funcion activa todo texto que tenga un link para que sea visible por le usuario
 			setTimeout(actualizarModal, 100)
 		} 
     }
@@ -57,7 +58,7 @@ function modal(contenido){
 				<h3>Usando bloque de: ${bloqueEnUso}</h3>
 			</div>
 			<div style="justify-content: left;" onclick="desactivarModal()" >
-				<h3>X</h3>
+				<h3 style='cursor: pointer;'>X</h3>
 			</div>
 		</header>
 		<div class="">

@@ -1,10 +1,47 @@
 //son las posibilidades que permiten armar los componenentes
 
-function texto(tipo, acc, text){
-    //console.log(`tipo: ${tipo}, acc: ${acc}, text: ${text}`);
+function texto(tipo, acc, text, colorYFondo, eventos, id){
+    //console.log(`tipo: ${tipo}, acc: ${acc}, text: ${text}, colorYFondo: ${colorYFondo}, eventos: ${eventos}, id: ${id}`);
+    let arreText = []
+    for (let u = 0; u < text.length; u++) {
+        for (let i = 0; i < text[u].length; i++) {
+            arreText.push(text[u][i])
+        }
+    }
+
+    let cantidadTextos = arreText.length / 3
+    let textoPaso = ''
+    let textoConcatenado = ''
+
+    let numPaso = 0, bandera = 0
+    for (let u = 0; u < cantidadTextos; u++) {
+        textoPaso = agregarSaltosDeLinea(arreText[numPaso], 'º', '<br>')
+        if(arreText[numPaso + 1] == 'hiperLink'){
+            let linkFuncional = ''
+            if(detenerOnclickModal == 'no'){
+                linkFuncional = `#${arreText[numPaso + 2]}`
+            } else {
+                if(bandera == 0){
+                    bandera = 1
+                    alert(`antes de activar cualquier link, debes guardar la informaciòn, de lo contrario se perderìa!!!`)
+                }
+                linkFuncional = `${arreText[numPaso + 2]}`
+            }                       // en este caso habrìa replica de id, quizas en un futuro arreglar
+            textoConcatenado += `<a id='${id}' ${eventos} style='${colorYFondo}' href='${linkFuncional}'>${textoPaso}</a>`
+        } else if(arreText[numPaso + 1] == 'negrita'){
+            textoConcatenado += `<b> ${textoPaso} </b>`
+        } else {
+            textoConcatenado += `${textoPaso}`
+        }
+        numPaso += 3
+    }
+
+    //console.log(`textoPaso: ${textoPaso}`);
+    //console.log(`textoConcatenado: ${textoConcatenado}`);
+
     let cod = `
         <${tipo} ${acc}>
-            ${text}
+            ${textoConcatenado}
         </${tipo}>
     `
     //console.log(cod);
@@ -58,21 +95,21 @@ function div(atributos, info, acc){
 }
 
 function video(aa, link){
-    //console.log(aa);
+    //console.log(`entrada video, aa: ${aa}, link: ${link}`);
     let cod = "";
     cod = `
     <video ${aa} controls>
     <source src="${link}" type="video/mp4">
     </video>
     `
-    //console.log(`Cod: ${cod}`);
+    //console.log(`salida video, aa: ${aa}, link: ${link}`);
     return cod;
 }
 
-function imagen(link, style, clas, events, id, animation){
+function imagen(link, style, clas, events, id){
     //console.log(`link: ${link}, style: ${style}, clas: ${clas}, events: ${events}, id: ${id}, animation: ${animation}`);
     let cod = `
-    <img id="${id}" ${animation} src="${link}" style="${style}" class="${clas}" ${events} alt="">
+    <img id="${id}" src="${link}" style="${style}" class="${clas}" ${events} alt="">
     `
     //console.log(cod);
     return cod;
