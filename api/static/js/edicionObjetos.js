@@ -67,12 +67,12 @@ function modalAtributos(bloqueID){
 function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreDicPadre){
     //console.log(`entra ` + text);
     let arrClases = [' ', 'opcionSeleccionable ', 'sombra ', 'anchoMinimo ', 'anchoMaximo ', 'alturaMinina ', 'alturaMaxima ', 'mi ', 'efectoResaltar ', 'organizarPorFilas ', 'organizarPorColumnas ', 'color ', 'girar90 ']
-    let arrTipos = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7' ]
+    let arrTipos = ['p', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7' ]
     let arrDisplay = ['flex', 'block']
     let arrTexto = [' ', 'negrita', 'hiperLink']
     let arrOpcionConRelativo = ['pixeles', 'porcentajes', 'relativo']
     let arrOpcionSinRelativo = ['pixeles', 'porcentajes']
-    let arreObjetosCreables = ['contenedor', 'imagen', 'texto']
+    let arreObjetosCreables = ['', 'contenedor', 'imagen', 'texto', 'video']
         
     let cod = ''
     if(text == 'class'){
@@ -171,6 +171,10 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
 
         cod += `${retornarSelects(id, arreObjetosCreables, 'onchange="crearNuevoObjeto(this.id, this.value)"', opcionActual)}`
 
+    } else if(text == 'borrar'){
+
+        cod += `<img  style="border-radius: 50%; width: 50px; height: 50px; cursor:pointer;" onclick="borrarObjeto('${id}')" src="https://res.cloudinary.com/dplncudbq/image/upload/v1669597775/borrar_yw19rd.png">`
+    
     } else {
         cod += retornarInput(opcionActual, id)
         cod += retornarBotonBorrar(`'${id}'`, i, nombreDicPadre, opcionActual)
@@ -178,22 +182,98 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
     return cod
 }
 
+function borrarObjeto(id){
+    let arr = crearArreglo(id, '$')
+    alert(arr[0])
+
+    let arrPaso = []
+    for( i in diccionario){
+        console.log(diccionario[i]);
+        if(i != arr[0]){
+            arrPaso.push(diccionario[i])
+        }
+        
+    }
+    
+    console.log(arrPaso);
+    diccionario = arrPaso
+    console.log(diccionario);
+    traducirDiccionario('porAhora')
+}
+
 function crearNuevoObjeto(id, valor){
     console.log(diccionario);
-    let idPaso = 'img3', acc = '`'
-    let cod = {"img": {
-        "id": [`img3`],
-        "link": ["https://res.cloudinary.com/dplncudbq/image/upload/v1657473822/mias/red-304573_xrlhrp.png"],
-        "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 25%"], ["alto", "height: 25%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 1)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
-        "class": ["prueba"],
-        "eventos": [[`modalAtributos(${acc}${idPaso}${acc})`], [`cambiarColor( ${acc}${idPaso}${acc},  ${acc}1${acc}, ${acc}rgba(33, 141, 173, 0.3)${acc}, ${acc}0.3${acc})`], [`cambiarColor(${acc}${idPaso}${acc},  ${acc}1${acc}, ${acc}rgba(33, 141, 173, 0.0)${acc}, ${acc}0${acc})`]]
-    }}
+    console.log(`crearNuevoObjeto, id: ${id}, valor: ${valor}`);
+    let existente = 'no', incremento = 0, idPaso = ''
 
-    console.log(cod);    
+    while(existente == 'no'){
+        idPaso = `${valor}${incremento}`
+        console.log(`bucle, idPaso: ${idPaso}`);
+        
+        for(u in diccionario){
+            for(i in diccionario[u]){
+                if(diccionario[u][i]['id'] == idPaso){
+                    existente = 'si'
+                }
+            }
+        }
+
+        if(existente == 'no'){
+            break
+        } else {
+            existente = 'no'
+        }
+        incremento += 1
+    }
+    
+
+    
+    let cod = ''
+
+    if(valor == 'imagen'){
+        cod = {"img": {
+            "id": [`${idPaso}`],
+            "link": ["https://res.cloudinary.com/dplncudbq/image/upload/v1657473822/mias/red-304573_xrlhrp.png"],
+            "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 25%"], ["alto", "height: 25%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 1)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
+            "class": ["prueba"],
+            "eventos": [[''], [''], ['']]
+        }}
+    } else if(valor == 'texto'){
+        cod = {"text": {
+            "id": [`${idPaso}`],
+            "texto": [["Lorem ipsum dolor sit amet.", "", ""]],
+            "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 50%"], ["alto", "height: 50%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: block']],
+            "class": [""],
+            "eventos": [[''], [''], ['']],
+            "tipo": [`h1`]
+        }}
+    } else if(valor == 'contenedor'){
+        cod = {"div":{
+            "id": [`${idPaso}`], 
+            "class": [""],
+            "eventos": [[''], [''], ['']],
+            "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 90%"], ["alto", "height: 80%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: block']],
+            "absorber": ["si"],
+            "crearNuevo": ['']
+        }}
+    } else if(valor == 'video'){
+        cod = {"video": {
+            "id": [`${idPaso}`],
+            "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 200px"], ["alto", "height: 200px"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
+            "class": [""],
+            "eventos": [[''], [''], ['']],
+            "link": ["https://res.cloudinary.com/dplncudbq/video/upload/v1657988513/mias/y1_b0pxvc.mp4"]
+        }}
+    }
+    
+
+    console.log(cod);  
+
+    let arre = crearArreglo(id, '$')  
     let arr = []
     for( i in diccionario){
         console.log(diccionario[i]);
-        if(i == 2){
+        if(i == arre[0]){
             arr.push(cod)
         }
         arr.push(diccionario[i])
@@ -271,7 +351,7 @@ function RgbaToHex(rgba){
 }
 
 function retornarOpcionesEventos(id, nombreDicPadre, i, u, titulo){
-    let arrEventos = [' ', `rotar`, `cambiarColor`, `opacidad`, `desplazar`, `cambiarTamano`]
+    let arrEventos = [' ', `rotar`, `cambiarColor`, `cambiarColorLetra`, `opacidad`, `desplazar`, `cambiarTamano`]
     let idRuta = ``// en prueba aùn
     if(titulo == 'click'){// porque la opcion cero es inyectada para editar
         idRuta = `${id}$${u+1}`
@@ -301,6 +381,23 @@ function actualizarRequerimintosEventos(idRuta, evento, nombreDicPadre, id, i, i
         cod += retornarOpcionesDetalladasEventos(diccArr, diccLabel, diccOp, i, '')
 
     } else if(evento == 'cambiarColor'){
+        
+        diccArr = {0: retornarArregloConRangoNumerico(1, 10, 1)}
+        diccLabel = {0: 'segundos', 1: 'color', 2: 'opacidad'}
+        diccOp = {0: 2}
+        console.log(`actualizarRequerimintosEventos, idRuta: ${idRuta}, evento: ${evento}, nombreDicPadre: ${nombreDicPadre}, id: ${id}, i: ${i}, idSelectPadreEventos: ${idSelectPadreEventos}`);
+        codigoAdicional = `<div style='display: block; margin: 10px; justify-content: space-around;'>
+                                <h3>Color</h3>
+                                <input class='inputColor' style='border-radius: 0.7em; border: none;' id='op1$${i}' value='' type='color'>
+                            </div>
+                            <div style='display: block; margin: 10px; justify-content: space-around;'>
+                                <h3>Opacidad</h3>
+                                <input class='inputRange' type="range" id='op2$${i}' value='' name="transparencia" min="0" max="10">
+                            </div>`
+
+        cod += retornarOpcionesDetalladasEventos(diccArr, diccLabel, diccOp, i, codigoAdicional)
+        //cod += `<img  style="border-radius: 50%; width: 50px; height: 50px;" onclick="crearNuevoEvento()"  src="https://res.cloudinary.com/dplncudbq/image/upload/v1669597776/nuevo_dwrcbu.png">`
+    } else if(evento == 'cambiarColorLetra'){
         
         diccArr = {0: retornarArregloConRangoNumerico(1, 10, 1)}
         diccLabel = {0: 'segundos', 1: 'color', 2: 'opacidad'}

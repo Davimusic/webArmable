@@ -7,23 +7,26 @@ let diccionario =  [   // todo objeto se le debe inyectar el  `eventoUnico(this.
                                 "link": ["https://res.cloudinary.com/dplncudbq/image/upload/v1657473822/mias/red-304573_xrlhrp.png"],
                                 "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 25%"], ["alto", "height: 25%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 1)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
                                 "class": ["prueba"],
-                                "eventos": [[`modalAtributos(${mirar[0]})`], ['cambiarColor(`img1`,  `1`, `rgba(33, 141, 173, 0.3)`, `0.3`)'], ['cambiarColor(`img1`,  `1`, `rgba(33, 141, 173, 0.0)`, `0`)']]
+                                "eventos": [[''], [''], ['']],
+                                "borrar": ['']
                             }},
                             {"text": {
                                 "id": ["texto"],
                                 "texto": [["Lorem ipsum dolor sit amet.", "", ""]],
                                 "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 50%"], ["alto", "height: 50%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: block']],
                                 "class": [""],
-                                "eventos": [[`modalAtributos(${mirar[1]})`], ['cambiarColor(`texto`,  `1`, `rgba(33, 141, 173, 0.3)`, `0.3`)'], ['cambiarColor(`texto`,  `1`, `rgba(33, 141, 173, 0.0)`, `0`)']],
-                                "tipo": [`h1`]
+                                "eventos": [[''], [''], ['']],
+                                "tipo": [`p`],
+                                "borrar": ['']
                             }},
                             {"div":{
                                 "id": ["hijo"], 
                                 "class": [""],
-                                "eventos": [[`modalAtributos(${mirar[2]})`], ['cambiarColor(`hijo`,  `1`, `rgba(173, 33, 173, 0.3)`, `0.3`)'], ['cambiarColor(`hijo`,  `1`, `rgba(173, 33, 173, 0.0)`, `0`)']],
-                                "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 80%"], ["alto", "height: 80%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: block']],
+                                "eventos": [[''], [''], ['']],
+                                "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 90%"], ["alto", "height: 80%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: block']],
                                 "absorber": ["si"],
-                                "crearNuevo": ['XD']
+                                "crearNuevo": [''],
+                                "borrar": ['']
                             }},
                             {"espacio":{
                                 "espacios": ["0"]
@@ -33,22 +36,26 @@ let diccionario =  [   // todo objeto se le debe inyectar el  `eventoUnico(this.
                                 "texto": [["Lorem ipsum dolor sit amet 2 XD.", "", ""]],
                                 "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: min-content"], ["alto", "height: min-content"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: block']],
                                 "class": [""],
-                                "eventos": [[`modalAtributos(${mirar[5]})`], ['cambiarColor(`texto2`,  `1`, `rgba(33, 141, 173, 0.3)`, `0.3`)'], ['cambiarColor(`texto2`,  `1`, `rgba(33, 141, 173, 0.0)`, `0`)']],
-                                "tipo": [`h1`]
+                                "eventos": [[''], [''], ['']],
+                                "tipo": [`p`],
+                                "borrar": ['']
                             }},
                             {"video": {
                                 "id": ["video"],
                                 "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 200px"], ["alto", "height: 200px"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
                                 "class": [""],
-                                "eventos": [[`modalAtributos(${mirar[3]})`], ['cambiarColor(`video`,  `1`, `rgba(33, 141, 173, 0.3)`, `0.3`)'], ['cambiarColor(`video`,  `1`, `rgba(33, 141, 173, 0.0)`, `0`)']],
-                                "link": ["https://res.cloudinary.com/dplncudbq/video/upload/v1657988513/mias/y1_b0pxvc.mp4"]
+                                "eventos": [[''], [''], ['']],
+                                "link": ["https://res.cloudinary.com/dplncudbq/video/upload/v1657988513/mias/y1_b0pxvc.mp4"],
+                                "borrar": ['']
                             }},
                             {"div":{
                                 "id": ["padreXD"], 
                                 "class": [""],
-                                "eventos": [[`modalAtributos(${mirar[4]})`], ['cambiarColor(`padreXD`,  `1`, `rgba(173, 33, 173, 0.1)`, `0.1`)'], ['cambiarColor(`padreXD`,  `1`, `rgba(207, 207, 207, 1.0)`, `1.0`)']],
-                                "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 80%"], ["alto", "height: 80%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: block']],
-                                "absorber": ["si"] 
+                                "eventos": [[''], [''], ['']],
+                                "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 100%"], ["alto", "height: 80%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: block']],
+                                "absorber": ["si"],
+                                "crearNuevo": [''],
+                                "borrar": [''] 
                             }},
                             
                     ]
@@ -58,6 +65,7 @@ function traducirDiccionario(id){
     let codigoHTML = ""
 
     codigoHTML += retornarBotonDetenerOnclickModal()
+    codigoHTML += retornarBotonDragAndDrop()
 
     for (llavePadre in diccionario) {
         for (llaveHija in diccionario[llavePadre]){
@@ -72,6 +80,7 @@ function traducirDiccionario(id){
         }
     }
 
+    //console.log(codigoHTML);
     document.getElementById(id).innerHTML = codigoHTML
 }
 
@@ -119,17 +128,17 @@ function decidirAccionArmadoComponents(llaveHija, dicc, codigoHTML){
     
     if(llaveHija == "div"){
 
-        let concatenado = `id = "${dicc['id']}" class = "${quitarComasDeArreglo(dicc['class'])}" ${quitarComasDeArreglo(agregarEventos(dicc['eventos']))} style = "${quitarComasDeArreglo(unificarArreglos(dicc['style'], '; '))}"`
+        let concatenado = `id = "${dicc['id']}" class = "${quitarComasDeArreglo(dicc['class'])}" ${quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id']))} style = "${quitarComasDeArreglo(unificarArreglos(dicc['style'], '; '))}"`
         return div(concatenado, codigoHTML,  dicc['absorber'])// pilas que en este el codigo inyectable anterior ya proviene junto con la funcion "div"
         //console.log(codigoInyectable);
     
     } else if(llaveHija == "img"){
         
-        return imagen(dicc['link'], quitarComasDeArreglo(unificarArreglos(dicc['style'], '; ')), quitarComasDeArreglo(dicc['class']), quitarComasDeArreglo(agregarEventos(dicc['eventos'])), dicc['id'])
+        return imagen(dicc['link'], quitarComasDeArreglo(unificarArreglos(dicc['style'], '; ')), quitarComasDeArreglo(dicc['class']), quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id'])), dicc['id'])
     
     } else if(llaveHija == "video"){
         
-        let concatenado = `id = "${dicc['id']}" class = "${quitarComasDeArreglo(dicc['class'])}" ${quitarComasDeArreglo(agregarEventos(dicc['eventos']))}  style = "${quitarComasDeArreglo(unificarArreglos(dicc['style'], '; '))}"`
+        let concatenado = `id = "${dicc['id']}" class = "${quitarComasDeArreglo(dicc['class'])}" ${quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id']))}  style = "${quitarComasDeArreglo(unificarArreglos(dicc['style'], '; '))}"`
         return video(concatenado, dicc['link'])
     
     } else if(llaveHija == "espacio"){
@@ -138,8 +147,8 @@ function decidirAccionArmadoComponents(llaveHija, dicc, codigoHTML){
 
     } else if(llaveHija == "text"){
         
-        let concatenado = `id = "${dicc['id']}" style = "${quitarComasDeArreglo(unificarArreglos(dicc['style'], '; '))}" class = "${quitarComasDeArreglo(dicc['class'])}" ${quitarComasDeArreglo(agregarEventos(dicc['eventos']))}`
-        return texto(dicc['tipo'], concatenado, dicc['texto'], `${separarPalabra(dicc['style'][5], 'color letra')[1]}; ${separarPalabra(dicc['style'][6], 'fondo')[1]};`, `${quitarComasDeArreglo(agregarEventos(dicc['eventos']))}`, `${dicc['id']}`)
+        let concatenado = `id = "${dicc['id']}" style = "${quitarComasDeArreglo(unificarArreglos(dicc['style'], '; '))}" class = "${quitarComasDeArreglo(dicc['class'])}" ${quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id']))}`
+        return texto(dicc['tipo'], concatenado, dicc['texto'], `${separarPalabra(dicc['style'][5], 'color letra')[1]}; ${separarPalabra(dicc['style'][6], 'fondo')[1]};`, `${quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id']))}`, `${dicc['id']}`)
         
     }
 }
@@ -157,16 +166,57 @@ function unificarArreglos(arre, textoAdicional){
     return arr
 }
 
-function agregarEventos(arr){
+function agregarEventos(arr, id){
     //console.log(arr);
+    //console.log(id);
     let onclick =  `onclick="eventoUnico(this.id, '`, onmouseover = `onmouseover="`, onmouseout = `onmouseout="`;
     let estadoOnClick = 'borrar',  estadoOnMouseOver = 'borrar', estadoOnMouseOut = 'borrar'; 
+    
+    //console.log(`detenerOnclickModal: ${detenerOnclickModal}`);
+    if(detenerOnclickModal == 'no'){
+        let acc = '`', colorLetraUsuario = '', colorFondoUSuario = '', colorLetraPaso = '', colorFondoPaso = ''
+
+        for(i in diccionario){
+            for(u in diccionario[i]){
+                if(diccionario[i][u]['id'] == id){
+                    colorLetraUsuario = diccionario[i][u]['style'][5][1]
+                    colorFondoUSuario = diccionario[i][u]['style'][6][1]
+                    colorFondoUSuario = separarPalabra(colorFondoUSuario, ':')[1]
+                    colorLetraUsuario = separarPalabra(colorLetraUsuario, ':')[1]
+                    
+                    if(Object.keys(diccionario[i]) == 'div'){
+                        colorFondoPaso = 'rgba(173, 33, 173, 0.5)'
+                        colorLetraPaso = 'rgba(173, 33, 173, 0.5)'
+                    } else if(Object.keys(diccionario[i]) == 'text'){
+                        colorFondoPaso = 'rgba(33, 141, 173, 0.9)'
+                        colorLetraPaso = 'rgba(255, 255, 255, 0.9)'
+                    } else if(Object.keys(diccionario[i]) == 'img'){
+                        colorFondoPaso = 'rgba(77, 173, 33, 0.9)'
+                        colorLetraPaso = 'rgba(77, 173, 33, 0.9)'
+                    } else if(Object.keys(diccionario[i]) == 'video'){
+                        colorFondoPaso = 'rgba(221, 224, 11, 0.9)'
+                        colorLetraPaso = 'rgba(221, 224, 11, 0.9)'
+                    }
+                }
+            }
+        }
+
+        onclick += `modalAtributos(${acc}${id}${acc})/`
+        
+        onmouseover += `cambiarColor(${acc}${id}${acc},  ${acc}1${acc}, ${acc}${colorFondoPaso}${acc})/
+                        cambiarColorLetra(${acc}${id}${acc},  ${acc}1${acc}, ${acc}${colorLetraPaso}${acc})/`
+
+        onmouseout  += `cambiarColor(${acc}${id}${acc},  ${acc}1${acc}, ${acc}${colorFondoUSuario}${acc})/
+                        cambiarColorLetra(${acc}${id}${acc},  ${acc}1${acc}, ${acc}${colorLetraUsuario}${acc})/`
+
+        estadoOnClick = 'usar', estadoOnMouseOver = 'usar', estadoOnMouseOut = 'usar'
+    }
+
     for (let u = 0; u < arr.length; u++) {
-        for (let e = 0; e < arr[u].length; e++) {
+        for (let e = 1; e < arr[u].length; e++) { // la posicion 0 de la e siempre serà para los eventos inyectados para edicion
+                        
             if(u == 0){
-                if(e == 0 && detenerOnclickModal == 'si'){
-                    console.log(`detenerOnclickModal: si, arr[u][e]: ${arr[u][e]}`);
-                } else {
+                if(arr[u][e] != '') {
                     onclick += `${arr[u][e]}/`
                     estadoOnClick = 'usar'
                 }
@@ -203,13 +253,8 @@ function agregarEventos(arr){
         onmouseout = ''
     }
 
-    //por ahora
-    //if(detenerOnclickModal == 'si'){
-        //onclick = ''
-    //}
-    
-
     let text = `${onmouseover} ${onmouseout} ${onclick}`
+    //console.log(text);
     return text
 }
 

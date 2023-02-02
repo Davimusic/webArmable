@@ -1,8 +1,8 @@
 function arranque(){
     let divPadre = document.getElementById("root")
     let cod =  modal()
-    divPadre.innerHTML = cod
-    traducirDiccionario('porAhora') // es el id del div a inyectar    
+    divPadre.innerHTML = cod //+ `${<script src="script.js"></script>}`
+    traducirDiccionario('porAhora') // es el id del div a inyectar 
 }
 
 let habilitarUsoEvento = true
@@ -31,13 +31,17 @@ function retornarBotonDetenerOnclickModal(){
     return `<button type="button" id='cambiarEditar' onclick="eventoUnico(this.id, 'DetenerOnclickModal()')" style='border-radius: 0.5em; color: white; background: green; height: fit-content; width: fit-content;'>modo edicion activado</button>`
 }
 
+function retornarBotonDragAndDrop(){
+    return `<button type="button" id='cambiarDragAndDrop' onclick="eventoUnico(this.id, 'renderizarDicc()')" style='border-radius: 0.5em; color: white; background: red; height: fit-content; width: fit-content;'>modo drag and drop activado</button>`
+}
+
 let textoBotonEdicion = '', colorBotonEdicion = ''
 function DetenerOnclickModal(){
-    let bot = document.getElementById('cambiarEditar')
+    
     if(detenerOnclickModal == 'no'){
         textoBotonEdicion = 'modo edicion detenido'
         colorBotonEdicion = 'red';
-        detenerOnclickModal = 'si'
+        detenerOnclickModal = 'si'  
     } else {
         textoBotonEdicion = 'modo edicion activado'
         colorBotonEdicion = 'green';
