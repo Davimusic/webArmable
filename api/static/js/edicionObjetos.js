@@ -66,7 +66,7 @@ function modalAtributos(bloqueID){
 
 function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreDicPadre){
     //console.log(`entra ` + text);
-    let arrClases = [' ', 'opcionSeleccionable ', 'sombra ', 'anchoMinimo ', 'anchoMaximo ', 'alturaMinina ', 'alturaMaxima ', 'mi ', 'efectoResaltar ', 'organizarPorFilas ', 'organizarPorColumnas ', 'color ', 'girar90 ']
+    let arrClases = [' ', 'opcionSeleccionable ', 'sombra ', 'anchoMinimo ', 'anchoMaximo ', 'alturaMinina ', 'alturaMaxima ', 'mi ', 'efectoResaltar ', 'organizarPorFilas ', 'organizarPorColumnas ', 'color ', 'girar90 ', 'centrar ', 'centrarObjeto ']
     let arrTipos = ['p', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7' ]
     let arrDisplay = ['flex', 'block']
     let arrTexto = [' ', 'negrita', 'hiperLink']
@@ -252,7 +252,7 @@ function crearNuevoObjeto(id, valor){
             "id": [`${idPaso}`], 
             "class": [""],
             "eventos": [[''], [''], ['']],
-            "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 90%"], ["alto", "height: 80%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: block']],
+            "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 100%"], ["alto", "height: 80%"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(107, 107, 107, 1)'], ['mostrar en modo', 'display: flex']],
             "absorber": ["si"],
             "crearNuevo": ['']
         }}
@@ -282,6 +282,7 @@ function crearNuevoObjeto(id, valor){
     diccionario = arr
     console.log(diccionario);
     traducirDiccionario('porAhora')
+    console.log(diccionario);
 }
 
 function retornarArregloSelectStyle(tipo) {

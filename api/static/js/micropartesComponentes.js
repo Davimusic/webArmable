@@ -94,6 +94,27 @@ function div(atributos, info, acc){
     return cod;
 }
 
+function filterSections(input) {
+    //console.log(input);
+    let sections = [];
+    let startIndex = 0;
+    while (true) {
+        startIndex = input.indexOf('<div', startIndex);
+        //console.log(startIndex);
+        if (startIndex === -1) break;
+        let endIndex = input.indexOf('</div>', startIndex);
+        //console.log(endIndex);
+        if (endIndex === -1) break;
+        sections.push(input.slice(startIndex, endIndex + 6));
+        startIndex = endIndex + 6;
+    }
+    //console.log(sections.length);
+    for (let u = 0; u < sections.length; u++) {
+        //console.log(sections[u]);
+    }
+    return sections;
+}
+
 function video(aa, link){
     //console.log(`entrada video, aa: ${aa}, link: ${link}`);
     let cod = "";
@@ -143,4 +164,89 @@ function quitarComasDeArreglo(arr){
     }
     //console.log(text);
     return text;
+}
+
+let t= ` <div la a la la la >
+            conte1
+            <div 2 la a la la la > 
+                conte2 
+                <div 3la a la la la > 
+                    conte3
+                    <div 4la a la la la > 
+                        conte4
+                    </div> 
+                </div>  
+            </div> 
+            imagen 
+        </div>`
+
+
+let z= ` <div la a la la la > <div 2 la a la la la > </div> <div 3la a la la la > </div>  </div>`
+//filtrarSecciones(t)
+//filtrar2(t)
+function filtrar2(cod){
+    console.log(cod);
+    let arr = [], text = '', arrCerrarDiv = []
+    for (let u = 0; u < cod.length; u++) {
+        let referencia = `${cod[u]}${cod[u+1]}${cod[u+2]}${cod[u+3]}${cod[u+4]}${cod[u+5]}`
+        if(referencia == ' <div '){
+            arr.push(u) 
+        } else if(referencia == '</div>'){
+            arrCerrarDiv.push(u + 6)// el 6 es por el largo de caractereces de la palabra que se compara con referencia
+        }
+    }
+    
+    let conteo = 0
+    console.log(arr);
+    console.log(arrCerrarDiv);
+    arr.push(arrCerrarDiv[0])
+    let numCola = arrCerrarDiv.length - 1
+    while(conteo < (arr.length - 1)){
+        let inicio = arr[conteo], final = arr[conteo + 1]
+        for (let u = inicio; u < final; u++) {
+            text += cod[u]
+        }
+        inicio = arrCerrarDiv[numCola - 1], final = arrCerrarDiv[numCola]
+        //console.log(`inicio: ${inicio}, final: ${final}`);
+        for (let u = inicio; u < final; u++) {
+            text += cod[u]
+        }
+        conteo += 1
+        numCola -= 1
+    }
+
+    //console.log(text);
+    return text
+}
+
+function filtrarSecciones(cod){
+    let inicio = 0, final = 0, arr = [], text = ``, s = ''
+    s = cod
+    console.log(s);
+    for (let u = 0; u < s.length; u++) {
+        let referencia = `${s[u]}${s[u+1]}${s[u+2]}${s[u+3]}${s[u+4]}${s[u+5]}`
+        console.log(referencia);
+        if(referencia == ' <div '){
+            inicio = u
+            console.log('entra <div , inicio: ' + inicio );
+        } else if(referencia == '</div>'){
+            final = u+6
+            arr.push([inicio, final])
+            inicio = 0
+            final = 0
+        }
+
+        console.log(arr);
+        console.log(`largo: ${arr.length}`);
+
+        let num = 0
+        for (let u = 0; u < arr.length; u++) {
+            for (let i = arr[num][0]; i < arr[num][1]; i++) {
+                text += `${s[i]}`
+            }  
+            num += 1      
+        }
+    }
+    console.log(text);
+    //return text
 }

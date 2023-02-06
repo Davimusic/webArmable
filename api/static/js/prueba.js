@@ -1,7 +1,7 @@
 let mirar = ["`img1`", "`texto`", "`hijo`", "`video`", "`padreXD`", "`texto2`"]
 let arrAccEventos = []
 let acc = "`"
-let diccionario =  [   // todo objeto se le debe inyectar el  `eventoUnico(this.id, 'modalAtributos(${mirar[0]})')` para poder ser operado en el modal en la posicion 0
+/*let diccionario =  [   // todo objeto se le debe inyectar el  `eventoUnico(this.id, 'modalAtributos(${mirar[0]})')` para poder ser operado en el modal en la posicion 0
                             {"img": {
                                 "id": [`img1`],
                                 "link": ["https://res.cloudinary.com/dplncudbq/image/upload/v1657473822/mias/red-304573_xrlhrp.png"],
@@ -28,7 +28,7 @@ let diccionario =  [   // todo objeto se le debe inyectar el  `eventoUnico(this.
                                 "crearNuevo": [''],
                                 "borrar": ['']
                             }},
-                            {"espacio":{
+                            /*{"espacio":{
                                 "espacios": ["0"]
                             }},
                             {"text": {
@@ -58,14 +58,41 @@ let diccionario =  [   // todo objeto se le debe inyectar el  `eventoUnico(this.
                                 "borrar": [''] 
                             }},
                             
-                    ]
+                    ]*/
+let diccionario =  [   // todo objeto se le debe inyectar el  `eventoUnico(this.id, 'modalAtributos(${mirar[0]})')` para poder ser operado en el modal en la posicion 0
+                    {"div":{
+                        "id": ["contenedor0"], 
+                        "class": [""],
+                        "eventos": [[''], [''], ['']],
+                        "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 100%"], ["alto", "height: 100%"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
+                        "absorber": ["si"],
+                        "crearNuevo": [''],
+                        "borrar": [''] 
+                    }},                   
+            ]                    
 let detenerOnclickModal = "no"                    
 
 function traducirDiccionario(id){
     let codigoHTML = ""
 
-    codigoHTML += retornarBotonDetenerOnclickModal()
-    codigoHTML += retornarBotonDragAndDrop()
+
+    codigoHTML += ` <div style='position: absolute; z-index: 999; top: 0; right: 500; width: min-content; border: none; display: flex; flex-wrap: wrap; margin-left: 100px;'>
+                        ${retornarBotonDetenerOnclickModal()}
+                        ${retornarBotonDragAndDrop()}
+                    </div> `
+
+    /*for (let i = diccionario.length - 1; i >= 0; i--) {
+        let llaveHija = Object.keys(diccionario[i])[0];
+        console.log(llaveHija, diccionario[i][llaveHija]);
+        let dicc = diccionario[i][llaveHija]
+        if(llaveHija == "div"){
+            codigoHTML = decidirAccionArmadoComponents(llaveHija, dicc, codigoHTML)
+            //console.log(codigoHTML);
+        } else {
+            codigoHTML += decidirAccionArmadoComponents(llaveHija, dicc, codigoHTML)
+            //console.log(codigoHTML);
+        }         
+    }*/
 
     for (llavePadre in diccionario) {
         for (llaveHija in diccionario[llavePadre]){
@@ -80,8 +107,9 @@ function traducirDiccionario(id){
         }
     }
 
-    //console.log(codigoHTML);
-    document.getElementById(id).innerHTML = codigoHTML
+    console.log(codigoHTML);
+    document.getElementById(id).innerHTML = filtrar2(codigoHTML)
+
 }
 
 function buscarBloque(bloqueID){

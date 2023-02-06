@@ -118,6 +118,15 @@ h3, h4{
     white-space: pre-line;
 }
 
+.centrar{
+    align-items: center;
+    justify-content: center;
+}
+
+.centrarObjeto{
+    text-align: center;
+}
+
 /**text area*/
 textarea{
     resize: none;

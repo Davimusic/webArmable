@@ -52,7 +52,7 @@ function modal(contenido){
 	} 
 	
 	cod = `
-	<div style = "background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(5px); display: none; padding: 2%; opacity: 0; height: 0px" id="modala">
+	<div style = "background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(5px); display: none; padding: 2%; opacity: 0; height: 0px; width: 96%;" id="modala">
 		<header style = "position: sticky; top: 0; z-index: 100; border-radius: 0.5em; color:white; padding: 1%; height:fit-content; background: #1e7070; display:flex; justify-content: space-between;">
 			<div style="display:flex; justify-content: space-between;">
 				<h3>Usando bloque de: ${bloqueEnUso}</h3>

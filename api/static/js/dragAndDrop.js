@@ -1,169 +1,34 @@
-let dicc = {'div1': `<div style="background-color: aqua; width: 300px; height: 400px;" id="div1">`, 'div2': `<div style="background-color: rgb(255, 0, 255);  width: 200px; height: 200px;" id="div2">`, 'img': `<img style="width:150px; height:150px;" id="img" src="https://res.cloudinary.com/dplncudbq/image/upload/v1672767743/mias/salir_eyzxfp.png" alt="" srcset="">`}
-let orden = ['div1', 'div2', 'img']
-
-let isDragging = false;
-let currentElement;
-let currentX;
-let currentY;
-let initialX;
-let initialY;
-let xOffset = 0;
-let yOffset = 0;
-
-
-function dragStart(e) {
-  //console.log(e.touches);
-    initialX = e.touches[0].clientX;//e.touches[0].clientX - xOffset;
-    initialY = e.touches[0].clientY; //e.touches[0].clientY - yOffset;
-
-    if (e.target === img1){
-        //console.log(`initialX: ${initialX}, initialY: ${initialY}`);
-        currentElement = img1;
+function retornarPosicionDiccionario(id){
+    let numId = 0
+    for(u in diccionario){
+        for(i in diccionario[u]){
+            if(diccionario[u][i]['id'] == id){
+                numId = u
+            }
+        }
     }
-
-    isDragging = true;
+    return numId
 }
 
-function dragEnd(e) {
-    //console.log(`dragEnd`);
-    initialX = currentX;
-    initialY = currentY;
-
-    isDragging = false;
-
-    checkOverlap();
-}
-
-function drag(e) {
-    if (isDragging) {
-        //console.log(`drag`);
-        e.preventDefault();
-        currentX = e.touches[0].clientX; //e.touches[0].clientX - initialX;
-        currentY = e.touches[0].clientY;//e.touches[0].clientY - initialY;
-        //console.log(`currentX: ${currentX}, currentY: ${currentY}`);
-
-        /*xOffset = currentX;
-        yOffset = currentY;*/
-
-        setTranslate(currentX, currentY, currentElement);
-    }
-}
-
-function setTranslate(xPos, yPos, el) {
-    el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
-}
-
-function checkOverlap() {
-
-    //const div1 = document.getElementById("div1");
-    const div2 = document.getElementById("hijo");
-    const img = document.getElementById('img1')
-    //const rect1 = div1.getBoundingClientRect();
-    const rect2 = div2.getBoundingClientRect();
-    const img1 = img.getBoundingClientRect();
-
-    if (rect2.x < img1.x + img1.width &&
-        rect2.x + rect2.width > img1.x &&
-        rect2.y < img1.y + img1.height &&
-        rect2.height + rect2.y > img1.y){
-        
-        console.log('solapado con div2');
-        let cod = `${dicc['div1']} ${dicc['div2']} ${dicc['img']} </div> </div>`
-        renderizarDicc(cod)
-
-    } /*else if (rect1.x < img1.x + img1.width &&
-        rect1.x + rect1.width > img1.x &&
-        rect1.y < img1.y + img1.height &&
-        rect1.height + rect1.y > img1.y){
-
-        console.log('solapado con div1');
-        let cod = `${dicc['div1']} ${dicc['img']} ${dicc['div2']} </div> </div>`
-        renderizarDicc(cod)
-    } */
-
-}
-
-function detectDevice() {
-    const toMatch = [
-      /Android/i,
-      /webOS/i,
-      /iPhone/i,
-      /iPad/i,
-      /iPod/i,
-      /BlackBerry/i,
-      /Windows Phone/i
-    ];
-  
-    return toMatch.some(function(reg) {
-      return navigator.userAgent.match(reg);
-    });
-  }
-  
-
-
-
-
-
-
-
-
-
-
-function dragStart2(e) {
-  initialX = e.clientX - xOffset;
-  initialY = e.clientY - yOffset;
-
-  isDragging = true;
-}
-
-function dragEnd2(e) {
-  isDragging = false;
-}
-
-function drag2(e) {
-  if (isDragging) {
-    e.preventDefault();
-    currentX = e.clientX - initialX;
-    currentY = e.clientY - initialY;
-
-    xOffset = currentX;
-    yOffset = currentY;
-
-    setTranslate(currentX, currentY, img1);
-  }
-}
-
-function setTranslate2(xPos, yPos, el) {
-  el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
-}
-
-
-
-
-let bandera = 0, dragAndDropEnUso = 'no'
-function renderizarDicc(){
+let dragAndDropEnUso = 'no'
+function accionDagAndDrop(){
     if(dragAndDropEnUso == 'no'){
         dragAndDropEnUso = 'si'
         //alert('acti')
         textoBotonEdicion = 'modo edicion detenido', colorBotonEdicion = 'red', detenerOnclickModal = 'si'
         traducirDiccionario('porAhora')
-        document.getElementById('cambiarDragAndDrop').style.background = 'green'
-        setTimeout(actBotonEditar, 80)
-        const img = document.getElementById('img1')
-        if (detectDevice()) {
-            console.log("Es un dispositivo móvil");
-            img.addEventListener("touchstart", dragStart);
-            img.addEventListener("touchend", dragEnd);
-            img.addEventListener("touchmove", drag);
-        } else {
-            console.log("Es una computadora");
-
-            img.addEventListener("mousedown", dragStart2);
-            img.addEventListener("mouseup", dragEnd2);
-            img.addEventListener("mouseout", dragEnd2);
-            img.addEventListener("mousemove", drag2);
+        actBotonEditar()
+        renderizarDicc()
+        for(u in diccionario){
+            for(i in diccionario[u]){
+                if(i == 'div'){
+                    let id = diccionario[u][i]['id'][0]
+                    //console.log(id);
+                    document.getElementById(id).style.background = 'rgba(173, 33, 173, 0.5)'
+                }
+            }
         }
-
+        document.getElementById('cambiarDragAndDrop').style.background = 'green'
     } else {
         dragAndDropEnUso = 'no'
         //alert('desacti')
@@ -173,27 +38,73 @@ function renderizarDicc(){
         document.getElementById('cambiarDragAndDrop').style.background = 'red'
         setTimeout(actBotonEditar, 80)
     } 
-    
-    /*const padre = document.getElementById('padre')
-    let cod = ''
-        if(bandera == 0){
-        bandera = 1
-        for(i in diccionario){
-            for(u in diccionario[i]){
-            console.log(diccionario[i][u]['id']);
+   
+}
+
+let arrObjetos =[], banderaCambioUbicacion = 0
+function cambioUbicacion(id){
+    if(banderaCambioUbicacion == 0){
+        banderaCambioUbicacion = 1
+        console.log(`banderaCambioUbicacion: ${banderaCambioUbicacion}`);
+        if(arrObjetos.length == 0){
+            document.getElementById(id).style.transition = '1s';
+            document.getElementById(id).style.background = 'black';
+            document.getElementById(id).style.color = 'white';
+            arrObjetos.push(id)
+            console.log(id)
+            console.log(arrObjetos);
+        } else {
+            arrObjetos.push(id)
+            let num = 0, code = [], objMover = arrObjetos[0], obLlegada = arrObjetos[1]
+            console.log(`objMover: ${objMover}, obLlegada: ${obLlegada}`);
+
+            for(u in diccionario){
+                if(num == retornarPosicionDiccionario(obLlegada)){
+                    //console.log(` arrbia, diccionario[retornarPosicionDiccionario('${objMover}')]: ${retornarPosicionDiccionario(objMover)}`);
+                    //console.log(` arrbia, diccionario[retornarPosicionDiccionario('${obLlegada}')]: ${retornarPosicionDiccionario(obLlegada)}`);
+                    //console.log(diccionario[retornarPosicionDiccionario(objMover)]);
+                    code.push(diccionario[retornarPosicionDiccionario(objMover)])
+                    code.push(diccionario[retornarPosicionDiccionario(obLlegada)])
+                } else if(num != retornarPosicionDiccionario(objMover)){
+                    //console.log(` abajo, diccionario[${num}]: ${diccionario[num]}`);
+                    //console.log(diccionario[num]);
+                    code.push(diccionario[num])
+                }
+                num += 1;
+            }
+            
+            console.log(id)
+            console.log(arrObjetos);
+            console.log(code);
+            diccionario = code
+            traducirDiccionario('porAhora')
+            arrObjetos = []
+            if(dragAndDropEnUso == 'si'){
+                dragAndDropEnUso = 'no';
+                accionDagAndDrop()
             }
         }
-        padre.innerHTML = cod
-        } else {
-        padre.innerHTML = cod
-        }*/
-
+        //alert(`arrObjetos.length: ${arrObjetos.length}, id: ${id}`);
+    } else {
+        setTimeout(activarBanderaCambioUbicacion, 62.5)
+    }
     
-        
+}
 
-        /*img.addEventListener("dragstart", dragStart)
-        img.addEventListener("dragover", dragEnd);
-        img.addEventListener("drop", drag);*/
-    
+function activarBanderaCambioUbicacion(){
+    banderaCambioUbicacion = 0
+}
 
+
+function renderizarDicc(){
+        let cod = ''
+        for(u in diccionario){
+            console.log(diccionario);
+            for(i in diccionario[u]){
+                cod += `document.getElementById('${diccionario[u][i]['id'][0]}').addEventListener("click",function() {
+                    cambioUbicacion('${diccionario[u][i]['id'][0]}');
+                }); `
+            }
+        }
+        eval(cod)
 }

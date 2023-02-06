@@ -15,7 +15,7 @@ function eventoUnico(id, accion){
         
         //console.log(arre);
         for (let u = 0; u < arre.length; u++) {
-            //console.log(`arre[u]: ${arre[u]}, id: ${id}`);
+            console.log(`arre[u]: ${arre[u]}, id: ${id}`);
             document.getElementById(id).addEventListener("click", eval(arre[u]))
         }
         setTimeout(rehabilitarUsoEventos, 500)
@@ -28,11 +28,11 @@ function rehabilitarUsoEventos(){
 }
 
 function retornarBotonDetenerOnclickModal(){
-    return `<button type="button" id='cambiarEditar' onclick="eventoUnico(this.id, 'DetenerOnclickModal()')" style='border-radius: 0.5em; color: white; background: green; height: fit-content; width: fit-content;'>modo edicion activado</button>`
+    return `<button type="button" id='cambiarEditar' onclick="eventoUnico(this.id, 'DetenerOnclickModal()')" style='border-radius: 0.5em; color: white; background: green; height: fit-content; width: fit-content; margin: 10px;'>modo edicion activado</button>`
 }
 
 function retornarBotonDragAndDrop(){
-    return `<button type="button" id='cambiarDragAndDrop' onclick="eventoUnico(this.id, 'renderizarDicc()')" style='border-radius: 0.5em; color: white; background: red; height: fit-content; width: fit-content;'>modo drag and drop activado</button>`
+    return `<button type="button" id='cambiarDragAndDrop' onclick="eventoUnico(this.id, 'accionDagAndDrop()')" style='border-radius: 0.5em; color: white; background: red; height: fit-content; width: max-content; margin: 10px;'>modo drag and drop activado</button>`
 }
 
 let textoBotonEdicion = '', colorBotonEdicion = ''
