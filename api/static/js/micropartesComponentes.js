@@ -73,8 +73,42 @@ function negrita(text){
     return cod;
 }
 
-function div(atributos, info, acc){
-    //console.log(`${atributos} ${info} ${acc}`);
+function div(atributos, info, acc, id){
+
+    let inicioDiv = 0, llegadaDiv = 0, bandera = 0
+    for (let i = 0; i < diccionario.length; i++) {
+        for(u in diccionario[i]){
+            if(diccionario[i][u]['id'] == id){ 
+                llegadaDiv = i
+                bandera = 1
+                console.log(`si, id: ${id}`);
+            }
+        }
+        let llave = Object.keys(diccionario[i])[0];
+        if('div' == llave && bandera == 0){
+            inicioDiv = i + 1
+        }
+    }
+    console.log(`inicioDiv: ${inicioDiv}, llegadaDiv: ${llegadaDiv}`);
+
+    let code =''
+    for (let i = inicioDiv; i < llegadaDiv; i++) {
+        let llaveHija = Object.keys(diccionario[i])[0];
+        let dicc = diccionario[i][llaveHija]
+        console.log(`llaveHija: ${llaveHija}, dicc: ${dicc}`);
+        code += decidirAccionArmadoComponents(llaveHija, dicc, code)
+        console.log(code);
+    }
+
+    let cod = `
+            ${info}
+            <div ${atributos}>
+                ${code}
+            </div>
+        `
+
+
+    /*console.log(`id: ${id}`);
     let cod = ""
     if(acc == "si"){
         cod = `
@@ -88,7 +122,7 @@ function div(atributos, info, acc){
         <div ${atributos}>
         </div>
     `
-    }
+    }*/
     
     //console.log(cod);
     return cod;

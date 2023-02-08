@@ -61,12 +61,12 @@ let acc = "`"
                     ]*/
 let diccionario =  [   // todo objeto se le debe inyectar el  `eventoUnico(this.id, 'modalAtributos(${mirar[0]})')` para poder ser operado en el modal en la posicion 0
                     {"div":{
-                        "id": ["contenedor0"], 
+                        "id": ["contenedor0"],
+                        "crearNuevo": [''], 
                         "class": [""],
                         "eventos": [[''], [''], ['']],
                         "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 100%"], ["alto", "height: 100%"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
                         "absorber": ["si"],
-                        "crearNuevo": [''],
                         "borrar": [''] 
                     }},                   
             ]                    
@@ -95,20 +95,22 @@ function traducirDiccionario(id){
     }*/
 
     for (llavePadre in diccionario) {
+        //console.log(`llavePadre: ${llavePadre}`);
         for (llaveHija in diccionario[llavePadre]){
+            //console.log(`llaveHija: ${llaveHija}`);
             let dicc = diccionario[llavePadre][llaveHija]
             if(llaveHija == "div"){
                 codigoHTML = decidirAccionArmadoComponents(llaveHija, dicc, codigoHTML)
                 //console.log(codigoHTML);
-            } else {
+            } /*else {
                 codigoHTML += decidirAccionArmadoComponents(llaveHija, dicc, codigoHTML)
                 //console.log(codigoHTML);
-            }  
+            } */ 
         }
     }
 
-    console.log(codigoHTML);
-    document.getElementById(id).innerHTML = filtrar2(codigoHTML)
+    //console.log(codigoHTML);
+    document.getElementById(id).innerHTML = codigoHTML //filtrar2(codigoHTML)
 
 }
 
@@ -157,7 +159,7 @@ function decidirAccionArmadoComponents(llaveHija, dicc, codigoHTML){
     if(llaveHija == "div"){
 
         let concatenado = `id = "${dicc['id']}" class = "${quitarComasDeArreglo(dicc['class'])}" ${quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id']))} style = "${quitarComasDeArreglo(unificarArreglos(dicc['style'], '; '))}"`
-        return div(concatenado, codigoHTML,  dicc['absorber'])// pilas que en este el codigo inyectable anterior ya proviene junto con la funcion "div"
+        return div(concatenado, codigoHTML,  dicc['absorber'], dicc['id'])// pilas que en este el codigo inyectable anterior ya proviene junto con la funcion "div"
         //console.log(codigoInyectable);
     
     } else if(llaveHija == "img"){

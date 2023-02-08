@@ -19,12 +19,17 @@ function accionDagAndDrop(){
         traducirDiccionario('porAhora')
         actBotonEditar()
         renderizarDicc()
+        let arrColores = ['rgba(173, 33, 173, 0.5)', 'rgba(214, 15, 214, 0.5)'], num = 0
         for(u in diccionario){
             for(i in diccionario[u]){
                 if(i == 'div'){
                     let id = diccionario[u][i]['id'][0]
-                    //console.log(id);
-                    document.getElementById(id).style.background = 'rgba(173, 33, 173, 0.5)'
+                    document.getElementById(id).style.background = arrColores[num]
+                    if(num == (arrColores.length - 1)){
+                        num = 0
+                    } else {
+                        num += 1
+                    }
                 }
             }
         }
