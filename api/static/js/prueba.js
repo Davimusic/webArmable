@@ -63,7 +63,7 @@ let diccionario =  [   // todo objeto se le debe inyectar el  `eventoUnico(this.
                     {"div":{
                         "id": ["contenedor0"],
                         "crearNuevo": [''], 
-                        "class": [""],
+                        "class": ["centrar ", 'organizarPorFilas '],
                         "eventos": [[''], [''], ['']],
                         "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 100%"], ["alto", "height: 100%"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
                         "absorber": ["si"],
@@ -79,6 +79,7 @@ function traducirDiccionario(id){
     codigoHTML += ` <div style='position: absolute; z-index: 999; top: 0; right: 500; width: min-content; border: none; display: flex; flex-wrap: wrap; margin-left: 100px;'>
                         ${retornarBotonDetenerOnclickModal()}
                         ${retornarBotonDragAndDrop()}
+                        ${retornarTipoDeLetra()}
                     </div> `
 
     /*for (let i = diccionario.length - 1; i >= 0; i--) {
@@ -110,7 +111,7 @@ function traducirDiccionario(id){
     }
 
     //console.log(codigoHTML);
-    document.getElementById(id).innerHTML = codigoHTML //filtrar2(codigoHTML)
+    document.getElementById(id).innerHTML = codigoHTML 
 
 }
 

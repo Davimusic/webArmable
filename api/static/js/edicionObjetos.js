@@ -66,7 +66,7 @@ function modalAtributos(bloqueID){
 
 function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreDicPadre){
     //console.log(`entra ` + text);
-    let arrClases = [' ', 'opcionSeleccionable ', 'sombra ', 'anchoMinimo ', 'anchoMaximo ', 'alturaMinina ', 'alturaMaxima ', 'mi ', 'efectoResaltar ', 'organizarPorFilas ', 'organizarPorColumnas ', 'color ', 'girar90 ', 'centrar ', 'centrarObjeto ']
+    let arrClases = [' ', 'opcionSeleccionable ', 'sombra ', 'anchoMinimo ', 'anchoMaximo ', 'alturaMinina ', 'alturaMaxima ', 'mi ', 'efectoResaltar ', 'organizarPorFilas ', 'organizarPorColumnas ', 'color ', 'girar90 ', 'centrar ', 'espacioEquilatero ']
     let arrTipos = ['p', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7' ]
     let arrDisplay = ['flex', 'block']
     let arrTexto = [' ', 'negrita', 'hiperLink']
@@ -183,107 +183,118 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
 }
 
 function borrarObjeto(id){
-    let arr = crearArreglo(id, '$')
-    alert(arr[0])
-
-    let arrPaso = []
-    for( i in diccionario){
-        console.log(diccionario[i]);
-        if(i != arr[0]){
-            arrPaso.push(diccionario[i])
+    if(diccionario.length <= 1){
+        alert('unico objeto disponible, no es posible borrarlo, debe haber minimo un existente!!!')
+    } else {
+        let arr = crearArreglo(id, '$')
+        //alert(arr)
+        let arrPaso = []
+        for( i in diccionario){
+            //console.log(diccionario[i]);
+            if(i != arr[0]){
+                arrPaso.push(diccionario[i])
+            }
+            
         }
         
+        console.log(arrPaso);
+        diccionario = arrPaso
+        console.log(diccionario);
+        traducirDiccionario('porAhora')
+        desactivarModal()
+        console.log(`borrarObjeto: diccionario:`);
+        console.log(diccionario);
+        avisoCorto(`se elminò el objeto con exito `)
     }
-    
-    console.log(arrPaso);
-    diccionario = arrPaso
-    console.log(diccionario);
-    traducirDiccionario('porAhora')
 }
 
 function crearNuevoObjeto(id, valor){
-    console.log(diccionario);
-    console.log(`crearNuevoObjeto, id: ${id}, valor: ${valor}`);
-    let existente = 'no', incremento = 0, idPaso = ''
+    if(valor != ''){
+        console.log(diccionario);
+        console.log(`crearNuevoObjeto, id: ${id}, valor: ${valor}`);
+        let existente = 'no', incremento = 0, idPaso = ''
 
-    while(existente == 'no'){
-        idPaso = `${valor}${incremento}`
-        console.log(`bucle, idPaso: ${idPaso}`);
-        
-        for(u in diccionario){
-            for(i in diccionario[u]){
-                if(diccionario[u][i]['id'] == idPaso){
-                    existente = 'si'
+        while(existente == 'no'){
+            idPaso = `${valor}${incremento}`
+            console.log(`bucle, idPaso: ${idPaso}`);
+            
+            for(u in diccionario){
+                for(i in diccionario[u]){
+                    if(diccionario[u][i]['id'] == idPaso){
+                        existente = 'si'
+                    }
                 }
             }
+
+            if(existente == 'no'){
+                break
+            } else {
+                existente = 'no'
+            }
+            incremento += 1
         }
-
-        if(existente == 'no'){
-            break
-        } else {
-            existente = 'no'
+        
+        let cod = ''
+        if(valor == 'imagen'){
+            cod = {"img": {
+                "id": [`${idPaso}`],
+                "link": ["https://res.cloudinary.com/dplncudbq/image/upload/v1657473822/mias/red-304573_xrlhrp.png"],
+                "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 150px"], ["alto", "height: 25%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 1)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
+                "class": ["prueba"],
+                "eventos": [[''], [''], ['']],
+                "borrar": [''] 
+            }}
+        } else if(valor == 'texto'){
+            cod = {"text": {
+                "id": [`${idPaso}`],
+                "texto": [["Lorem ipsum dolor sit amet.", "", ""]],
+                "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: fit-content"], ["alto", "height: 50%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: block']],
+                "class": [""],
+                "eventos": [[''], [''], ['']],
+                "tipo": [`h1`],
+                "borrar": [''] 
+            }}
+        } else if(valor == 'contenedor'){
+            cod = {"div":{
+                "id": [`${idPaso}`], 
+                "crearNuevo": [''],
+                "class": ["centrar ", 'organizarPorFilas '],
+                "eventos": [[''], [''], ['']],
+                "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 100%"], ["alto", "height: 80%"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(107, 107, 107, 1)'], ['mostrar en modo', 'display: flex']],
+                "absorber": ["si"],
+                "borrar": [''] 
+            }}
+        } else if(valor == 'video'){
+            cod = {"video": {
+                "id": [`${idPaso}`],
+                "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 40px", "padding-right: 40px", "padding-left: 40px", "padding-bottom: 40px"],  ["ancho", "width: 200px"], ["alto", "height: 200px"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
+                "class": [""],
+                "eventos": [[''], [''], ['']],
+                "link": ["https://res.cloudinary.com/dplncudbq/video/upload/v1657988513/mias/y1_b0pxvc.mp4"],
+                "borrar": [''] 
+            }}
         }
-        incremento += 1
-    }
-    
+        
 
-    
-    let cod = ''
+        console.log(cod);  
 
-    if(valor == 'imagen'){
-        cod = {"img": {
-            "id": [`${idPaso}`],
-            "link": ["https://res.cloudinary.com/dplncudbq/image/upload/v1657473822/mias/red-304573_xrlhrp.png"],
-            "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 150px"], ["alto", "height: 25%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 1)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
-            "class": ["prueba"],
-            "eventos": [[''], [''], ['']]
-        }}
-    } else if(valor == 'texto'){
-        cod = {"text": {
-            "id": [`${idPaso}`],
-            "texto": [["Lorem ipsum dolor sit amet.", "", ""]],
-            "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: fit-content"], ["alto", "height: 50%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: block']],
-            "class": [""],
-            "eventos": [[''], [''], ['']],
-            "tipo": [`h1`]
-        }}
-    } else if(valor == 'contenedor'){
-        cod = {"div":{
-            "id": [`${idPaso}`], 
-            "crearNuevo": [''],
-            "class": ["centrar "],
-            "eventos": [[''], [''], ['']],
-            "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 100%"], ["alto", "height: 80%"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(107, 107, 107, 1)'], ['mostrar en modo', 'display: flex']],
-            "absorber": ["si"]
-        }}
-    } else if(valor == 'video'){
-        cod = {"video": {
-            "id": [`${idPaso}`],
-            "style": [['margen',"margin-top: 40px", "margin-right: 40px", "margin-left: 40px", "margin-bottom: 40px"], ['relleno',"padding-top: 0px", "padding-right: 0px", "padding-left: 0px", "padding-bottom: 0px"],  ["ancho", "width: 200px"], ["alto", "height: 200px"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
-            "class": [""],
-            "eventos": [[''], [''], ['']],
-            "link": ["https://res.cloudinary.com/dplncudbq/video/upload/v1657988513/mias/y1_b0pxvc.mp4"]
-        }}
-    }
-    
-
-    console.log(cod);  
-
-    let arre = crearArreglo(id, '$')  
-    let arr = []
-    for( i in diccionario){
-        console.log(diccionario[i]);
-        console.log(arre[0]);
-        if(i == arre[0]){
-            arr.push(cod)
+        let arre = crearArreglo(id, '$')  
+        let arr = []
+        for( i in diccionario){
+            console.log(diccionario[i]);
+            console.log(arre[0]);
+            if(i == arre[0]){
+                arr.push(cod)
+            }
+            arr.push(diccionario[i])
         }
-        arr.push(diccionario[i])
+        
+        diccionario = arr
+        console.log(diccionario);
+        traducirDiccionario('porAhora')
+        console.log(diccionario);
+        avisoCorto(`se creò un ${valor}`)
     }
-    
-    diccionario = arr
-    console.log(diccionario);
-    traducirDiccionario('porAhora')
-    console.log(diccionario);
 }
 
 function retornarArregloSelectStyle(tipo) {
@@ -325,7 +336,9 @@ function actualizarColor(idDicc, idColor, idTransparencia, palabra, accion, nomb
     } else {
         actualizarDicc(idDicc, palabra + color)
     }
-
+    
+    //let prueba = `background-image: url('https://res.cloudinary.com/dplncudbq/image/upload/v1657909273/mias/yooo_lafg9m.jpg')`
+    //actualizarDicc(idDicc, prueba)
     //console.log(`idDicc: ${idDicc}, color: ${color}, transparencia: ${transparencia}, palabra: ${palabra}`);
 }
 

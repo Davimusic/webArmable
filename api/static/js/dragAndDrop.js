@@ -12,6 +12,8 @@ function retornarPosicionDiccionario(id){
 
 let dragAndDropEnUso = 'no'
 function accionDagAndDrop(){
+    console.log(`accionDagAndDrop, diccionario:`);
+    console.log(diccionario);
     if(dragAndDropEnUso == 'no'){
         dragAndDropEnUso = 'si'
         //alert('acti')
@@ -43,7 +45,6 @@ function accionDagAndDrop(){
         document.getElementById('cambiarDragAndDrop').style.background = 'red'
         setTimeout(actBotonEditar, 80)
     } 
-   
 }
 
 let arrObjetos =[], banderaCambioUbicacion = 0
@@ -97,6 +98,7 @@ function cambioUbicacion(id){
 }
 
 function activarBanderaCambioUbicacion(){
+    console.log(`activarBanderaCambioUbicacion, banderaCambioUbicacion: ${banderaCambioUbicacion}`);
     banderaCambioUbicacion = 0
 }
 
@@ -111,5 +113,6 @@ function renderizarDicc(){
                 }); `
             }
         }
+        console.log(cod);
         eval(cod)
 }

@@ -62,6 +62,7 @@ function modal(contenido){
 			</div>
 		</header>
 		<div class="">
+				${retornarToast()}
                 ${conte}
 				<p>Agregar un mensaje</p>
 				<img style = "width: 30px; height: 30px" src="https://res.cloudinary.com/dplncudbq/image/upload/v1657909273/mias/yooo_lafg9m.jpg" alt="">
@@ -97,7 +98,7 @@ function actualizarDicc(idRuta, Valor){
 	let nuevoValor = Valor
 	
 	if(nuevoValor == ''){
-		alert('ni idea')
+		//alert('ni idea')
 	}	console.log(`actualizarDicc: nuevoValor: ${nuevoValor}`);
 
 	let arr = crearArreglo(idRuta, '$')
@@ -113,8 +114,24 @@ function actualizarDicc(idRuta, Valor){
 
 	console.log(diccionario);
 	traducirDiccionario('porAhora')
-
 }
 
 
+function retornarToast(){
+	let cod = `<H3 id='toast' style='display: none; color: black; background: white;'></H3>`
+	return cod
+}
+
+function avisoCorto(mensaje){
+	let toast = document.getElementById('toast')
+	toast.style.display = 'flex'
+	toast.innerText = mensaje
+	setTimeout(cerraAviso, 1000)
+}
+
+function cerraAviso(){
+	console.log('entra');
+	let toast = document.getElementById('toast')
+	toast.style.display = 'none'
+}
 
