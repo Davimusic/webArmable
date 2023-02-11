@@ -158,9 +158,9 @@ function usarInformacion(llavePrincipal, llaveHija, acc, info){
 function decidirAccionArmadoComponents(llaveHija, dicc, codigoHTML){
     
     if(llaveHija == "div"){
-
-        let concatenado = `id = "${dicc['id']}" class = "${quitarComasDeArreglo(dicc['class'])}" ${quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id']))} style = "${quitarComasDeArreglo(unificarArreglos(dicc['style'], '; '))}"`
-        return div(concatenado, codigoHTML,  dicc['absorber'], dicc['id'])// pilas que en este el codigo inyectable anterior ya proviene junto con la funcion "div"
+        
+        let concatenado = `id = "${dicc['id']}" class = "${quitarComasDeArreglo(dicc['class'])}" ${quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id']))}`
+        return div(concatenado, codigoHTML,  dicc['absorber'], dicc['id'], `style = "${quitarComasDeArreglo(unificarArreglos(dicc['style'], '; '))}"`)// pilas que en este el codigo inyectable anterior ya proviene junto con la funcion "div"
         //console.log(codigoInyectable);
     
     } else if(llaveHija == "img"){
@@ -212,7 +212,21 @@ function agregarEventos(arr, id){
                 if(diccionario[i][u]['id'] == id){
                     colorLetraUsuario = diccionario[i][u]['style'][5][1]
                     colorFondoUSuario = diccionario[i][u]['style'][6][1]
-                    colorFondoUSuario = separarPalabra(colorFondoUSuario, ':')[1]
+                    tipoFondoUsuario = separarPalabra(colorFondoUSuario, ':')[0]
+                    
+                    //console.log(`tipoFondoUsuario: ${tipoFondoUsuario}`);
+                    if(tipoFondoUsuario == 'background:'){
+                        tipoFondoUsuario = 'cambiarColor'
+                    } else {
+                        tipoFondoUsuario = 'cambiarImagen'
+                    }
+                    
+                    if(tipoFondoUsuario == 'cambiarColor'){
+                        colorFondoUSuario = separarPalabra(colorFondoUSuario, ':')[1]
+                    } else {
+                        colorFondoUSuario = buscarCaracterParaReemplazar(diccionario[i][u]['style'][6][1], '`', `'`)
+                    }
+
                     colorLetraUsuario = separarPalabra(colorLetraUsuario, ':')[1]
                     
                     if(Object.keys(diccionario[i]) == 'div'){
@@ -237,7 +251,7 @@ function agregarEventos(arr, id){
         onmouseover += `cambiarColor(${acc}${id}${acc},  ${acc}1${acc}, ${acc}${colorFondoPaso}${acc})/
                         cambiarColorLetra(${acc}${id}${acc},  ${acc}1${acc}, ${acc}${colorLetraPaso}${acc})/`
 
-        onmouseout  += `cambiarColor(${acc}${id}${acc},  ${acc}1${acc}, ${acc}${colorFondoUSuario}${acc})/
+        onmouseout  += `${tipoFondoUsuario}(${acc}${id}${acc},  ${acc}1${acc}, ${acc}${colorFondoUSuario}${acc})/
                         cambiarColorLetra(${acc}${id}${acc},  ${acc}1${acc}, ${acc}${colorLetraUsuario}${acc})/`
 
         estadoOnClick = 'usar', estadoOnMouseOver = 'usar', estadoOnMouseOut = 'usar'

@@ -137,7 +137,6 @@ textarea{
 /** para el input range**/
 input[type='range'] {
     display: inline-block;
-    
 }
     
 input[type='range']:focus {

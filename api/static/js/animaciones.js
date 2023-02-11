@@ -26,6 +26,13 @@ function cambiarColorLetra(id, segundos, color){
     objeto.style.color = `${color}`
 } 
 
+function cambiarImagen(id, segundos, link){ 
+    let objeto = document.getElementById(id)
+    objeto.style.transition =  `${segundos}s`
+    let m = separarPalabra(link, ':')[1] + separarPalabra(link, ':')[2]
+    objeto.style.backgroundImage = `${m}`
+} 
+
 function opacidad(id, segundos, porcentaje){
     let objeto = document.getElementById(id)
     objeto.style.transition =  `${segundos}s`

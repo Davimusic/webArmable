@@ -73,7 +73,7 @@ function negrita(text){
     return cod;
 }
 
-function div(atributos, info, acc, id){
+function div(atributos, info, acc, id, style){
 
     let inicioDiv = 0, llegadaDiv = 0, bandera = 0
     for (let i = 0; i < diccionario.length; i++) {
@@ -100,9 +100,11 @@ function div(atributos, info, acc, id){
         console.log(code);
     }
 
+    let stylesFiltrados = buscarCaracterParaReemplazar(style, '`', `'`)
+    
     let cod = `
             ${info}
-            <div ${atributos}>
+            <div ${atributos}${stylesFiltrados}>
                 ${code}
             </div>
         `
@@ -177,4 +179,16 @@ function quitarComasDeArreglo(arr){
     }
     //console.log(text);
     return text;
+}
+
+function buscarCaracterParaReemplazar(text, buscar, cambiar){
+    let cod = ``
+    for (let u = 0; u < text.length; u++) {
+        if(text[u] == buscar){
+            cod += cambiar
+        } else {
+            cod += text[u]
+        }
+    }
+    return cod
 }

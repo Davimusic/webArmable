@@ -1,4 +1,4 @@
-let idElementoEnUso = '', arrLinks = []
+let idElementoEnUso = '', arrLinks = [], referenciaColorPaso = 'color'
 
 function modalAtributos(bloqueID){
     let llavePrincipal = buscarBloque(bloqueID)
@@ -136,11 +136,18 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
                 
                 } else if(opcionActual[0] == 'color letra'  || opcionActual[0] == 'fondo'){
                     
+                    if(opcionActual[0] == 'fondo'){
+                    cod += `${retornarSelects(`opcionesFondo${i}`, ['color', 'imagen'], `onchange= "actualizarOpcionFondo(this.value, ${u}, ${i})"`, 'color')}`    
+                    }
                     let infColor = RgbaToHex(palabras[1])
-                    cod += `<input class='inputColor' style='border-radius: 0.7em; border: none;' id='${id}$${u}$color' value='${infColor[0]}' type='color'>
-                            <input class='inputRange' type="range" id='${id}$${u}$transparencia' value='${infColor[1] * 10}' name="transparencia" min="0" max="10">
-                            <img style="border-radius: 50%; width: 50px; height: 50px;" onclick="actualizarColor('${id}$${u}' , '${id}$${u}$color', '${id}$${u}$transparencia', '${palabras[0]}')" src="https://res.cloudinary.com/dplncudbq/image/upload/v1669597776/nuevo_dwrcbu.png">
-                            `
+                    cod += `<div id='contendorColor${u}${i}'>
+                            <input class='inputColor' style='border-radius: 0.7em; border: none;' id='${id}$${u}$color' value='${infColor[0]}' type='color'>
+                            <input class='inputRange' type="range" style="background: none;" id='${id}$${u}$transparencia' value='${infColor[1] * 10}' name="transparencia" min="0" max="10">
+                            <img style="border-radius: 50%; width: 50px; height: 50px;" onclick="actualizarColor('${id}$${u}' , '${id}$${u}$color', '${id}$${u}$transparencia', '${palabras[0]}', '${i}', '${opcionActual[0]}')" src="https://res.cloudinary.com/dplncudbq/image/upload/v1669597776/nuevo_dwrcbu.png">
+                            </div>
+                            <div id='contendorImagen${u}${i}'>
+                            <input oninput="actualizarColor('${id}$${u}' , '${id}$${u}$color', '${id}$${u}$transparencia', '${palabras[0]}', '${i}', '${opcionActual[0]}')" style="border-radius:0.5em; border:none; width: 100%; height: 20px; margin-top: 15px; margin-right: 15px;" type="text" name="" placeholder='link de la imagen' value="" id="inputcontendorImagen${u}${i}">
+                            </div>`
                 } else if(opcionActual[0] == 'mostrar en modo'){
                     cod += `${retornarSelects(`${id}$${u}`, arrDisplay, `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
                 }   
@@ -180,6 +187,18 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
         cod += retornarBotonBorrar(`'${id}'`, i, nombreDicPadre, opcionActual)
     }
     return cod
+}
+
+function actualizarOpcionFondo(valor, u, i){
+    console.log(`actualizarOpcionFondo, valor: ${valor}, u: ${u}, i: ${i}`);
+    let con = document.getElementById(`contendorColor${u}${i}`)
+    if(valor == 'imagen'){
+        referenciaColorPaso = 'imagen'
+        con.style.display = 'none'
+    } else {
+        referenciaColorPaso = 'color'
+        con.style.display = 'flex'
+    }
 }
 
 function borrarObjeto(id){
@@ -322,24 +341,24 @@ function retornarValorSelectStyle(text){
     return sel
 }
 
-function actualizarColor(idDicc, idColor, idTransparencia, palabra, accion, nombreDicPadre, i){
+function actualizarColor(idDicc, idColor, idTransparencia, palabra, i, accion){
     let acc = "`"
     let transparencia = 0.1 * parseInt(document.getElementById(idTransparencia).value)
     let color = hexToRgba(document.getElementById(idColor).value, transparencia)
-    
-    if(accion == 'cambiarColor'){
-        let duracion = document.getElementById(`op0$${i}`).value
-        let text = `cambiarColor(${acc}${nombreDicPadre}${acc},  ${acc}${duracion}${acc}, ${acc}${color}${acc}, ${acc}${transparencia}${acc})`
-        //console.log(`text: ${text}`);
-        //console.log(`idDicc: ${idDicc}`);
-        actualizarDicc(idDicc, text)
+
+    if(referenciaColorPaso == 'color'){
+        let coordenada = crearArreglo(idDicc, '$')[3], ref = ''
+        if(coordenada == '5'){
+            ref = 'color: '
+        } else if(coordenada == '6'){
+            ref = 'background: '
+        }
+        console.log(`ref: ${ref}, color: ${color}`);
+        actualizarDicc(idDicc, ref + color)
     } else {
-        actualizarDicc(idDicc, palabra + color)
+        let prueba = `background-image: url(${acc}https://res.cloudinary.com/dplncudbq/image/upload/v1658433646/mias/piano-5353974_1_gwmq3l.jpg${acc})`
+        actualizarDicc(idDicc, prueba)
     }
-    
-    //let prueba = `background-image: url('https://res.cloudinary.com/dplncudbq/image/upload/v1657909273/mias/yooo_lafg9m.jpg')`
-    //actualizarDicc(idDicc, prueba)
-    //console.log(`idDicc: ${idDicc}, color: ${color}, transparencia: ${transparencia}, palabra: ${palabra}`);
 }
 
 function hexToRgba(hex, transparencia) {
