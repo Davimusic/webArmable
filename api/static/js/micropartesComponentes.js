@@ -81,7 +81,7 @@ function div(atributos, info, acc, id, style){
             if(diccionario[i][u]['id'] == id){ 
                 llegadaDiv = i
                 bandera = 1
-                console.log(`si, id: ${id}`);
+                //console.log(`si, id: ${id}`);
             }
         }
         let llave = Object.keys(diccionario[i])[0];
@@ -89,15 +89,16 @@ function div(atributos, info, acc, id, style){
             inicioDiv = i + 1
         }
     }
-    console.log(`inicioDiv: ${inicioDiv}, llegadaDiv: ${llegadaDiv}`);
+    //console.log(`inicioDiv: ${inicioDiv}, llegadaDiv: ${llegadaDiv}`);
 
     let code =''
     for (let i = inicioDiv; i < llegadaDiv; i++) {
         let llaveHija = Object.keys(diccionario[i])[0];
         let dicc = diccionario[i][llaveHija]
-        console.log(`llaveHija: ${llaveHija}, dicc: ${dicc}`);
+        //console.log(`llaveHija: ${llaveHija}, dicc:`);
+        //console.log(dicc);
         code += decidirAccionArmadoComponents(llaveHija, dicc, code)
-        console.log(code);
+        //console.log(code);
     }
 
     let stylesFiltrados = buscarCaracterParaReemplazar(style, '`', `'`)
@@ -151,6 +152,31 @@ function imagen(link, style, clas, events, id){
     return cod;
 }
 
+//dicc['id'][0], dicc['linkSlideGalery'], dicc['styleImagenes'],  dicc['eventosImagenes'],  quitarComasDeArreglo(agregarEventos(dicc['eventos'], quitarComasDeArreglo(dicc['class']), dicc['id'])), buscarCaracterParaReemplazar(quitarComasDeArreglo(unificarArreglos(dicc['style'], '; ')), '`', `'`), dicc
+function slideGalery(id, eventosContenedor, clases, estilosGenerales, dicc){
+    console.log(dicc);
+
+    let arr = dicc['linkSlideGalery']
+                let textArr = '', texto = ''
+                for (let u = 0; u < arr.length; u++) {
+                    textArr += arr[u][0] + '&'
+                    texto += arr[u][1] + '&'
+                }
+
+    let estilosImagenes = dicc['styleImagenes']
+    let textEstilosImagenes = ''
+    for (let u = 0; u < (estilosImagenes.length - 1); u++) {
+        for (let e = 1; e < estilosImagenes[u].length; e++) {
+            textEstilosImagenes += estilosImagenes[u][e] + '; '
+        }
+    }
+
+    console.log(dicc['eventosImagenes']);
+
+    
+    return objetoSlideGalery(id, textArr, texto, eventosContenedor, estilosGenerales, clases, textEstilosImagenes, estilosImagenes[2][1], dicc['eventosImagenes'])
+}
+
 function mapa(){
     let alto = window.innerHeight, ancho = window.innerWidth;
 
@@ -192,3 +218,17 @@ function buscarCaracterParaReemplazar(text, buscar, cambiar){
     }
     return cod
 }
+
+function separarTextoPorPalabras(text, primerPalabra){
+    let num = (primerPalabra.length - 1), arr = [], cod = ``
+    for (let u = 0; u < text.length; u++) {
+        cod += text[u]
+        if(u == num){
+            arr.push(cod)
+            cod = ``
+        } 
+    }
+    arr.push(cod)
+    return arr
+}
+

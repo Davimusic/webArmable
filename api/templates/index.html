@@ -10,10 +10,12 @@
     <title>Document</title>
 </head>
 <body onload="arranque()">
-        <div id="padre" style="position:relative;">
+        <!--div id="padre" style="position:relative;"--> 
+        <div style='display: flex; justify-content: center; text-align: center; '>
             <div id="porAhora" style="position: absolute; width: 100%;"></div><!--para usar z-index las cordenadas deben tener position absolute-->
             <div id="root" style="z-index: 1000; position: absolute; top: 0; left: 0; right: 0; margin: 0 auto;"></div>  
         </div>
+        <!--/div-->
 </body>
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/bloque.js') }}"></script>
@@ -24,5 +26,6 @@
 <script type="text/javascript" src="{{ url_for('static', filename='js/animaciones.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/edicionObjetos.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/dragAndDrop.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/slideGalery.js') }}"></script>
 
 </html>

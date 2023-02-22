@@ -72,7 +72,7 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
     let arrTexto = [' ', 'negrita', 'hiperLink']
     let arrOpcionConRelativo = ['pixeles', 'porcentajes', 'relativo']
     let arrOpcionSinRelativo = ['pixeles', 'porcentajes']
-    let arreObjetosCreables = ['', 'contenedor', 'imagen', 'texto', 'video']
+    let arreObjetosCreables = ['', 'contenedor', 'imagen', 'texto', 'video', 'slideGalery']
         
     let cod = ''
     if(text == 'class'){
@@ -80,7 +80,7 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
         cod += `${retornarSelects(id, arrClases, 'onchange="actualizarDicc(this.id, this.value)"', opcionActual)}
                 ${retornarBotonBorrar(`'${id}'`, i, nombreDicPadre, opcionActual)}`
 
-    } else if(text == 'eventos'){
+    } else if(text == 'eventos' || text == 'eventosImagenes'){
         
         let diccEventos = {'0': 'click', '1': 'pasar el mouse', '2': 'sacar el mouse'}   
         let arr = crearArreglo(id, '$') 
@@ -93,7 +93,7 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
                 }
                 
                 let idEventos = `${id}$${u}`, idEventosBorrar = "`" + idEventos + "`"
-                if(i != 0 && u != 0  || u != 0){ // no deja mostrar la primera posicion del arreglo eventos click porque este es inyectado para poder usar el modal
+                if(i != 0 && u != 0 || u != 0){ // no deja mostrar la primera posicion del arreglo eventos click porque este es inyectado para poder usar el modal
                     cod += `<div style='display: flex;'>
                                 ${retornarInput(opcionActual[u], idEventos)}
                                 ${retornarBotonBorrar(`${idEventosBorrar}`, i, nombreDicPadre, opcionActual)}
@@ -109,8 +109,6 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
 
     } else if(text == 'style') {
         
-        //cod += `<div style='display: flex; flex-wrap: wrap; justify-content: space-between;'>`
-        //console.log(`estilos: opcionActual: ${opcionActual}, largo: ${opcionActual. length}`);
         for (let u = 0; u < opcionActual.length; u++) {
             if(u == 0){
             cod += `<h3>${opcionActual[0]}</h3>`
@@ -134,19 +132,41 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
                     
                     cod += `${retornarSelects(`${id}$${u}`, retornarArregloConRangoNumerico(0, 1, 0.1, 'em'), `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
                 
-                } else if(opcionActual[0] == 'color letra'  || opcionActual[0] == 'fondo'){
-                    
-                    if(opcionActual[0] == 'fondo'){
-                    cod += `${retornarSelects(`opcionesFondo${i}`, ['color', 'imagen'], `onchange= "actualizarOpcionFondo(this.value, ${u}, ${i})"`, 'color')}`    
+                } else if(opcionActual[0] == 'color letra' || opcionActual[0] == 'fondo'){
+                    //console.log(buscarCaracterParaReemplazar(separarPalabra(opcionActual[u], '(')[1], ')', ''));
+                    let ref = separarPalabra(opcionActual[u], ':')[0],  accDiv1 = '', accDiv2 = '', enUso = ''
+                    //console.log(`opcionActual: ${opcionActual}, text: ${text}, id: ${id}, idItem: ${idItem}, i: ${i}, nombreDicPadre: ${nombreDicPadre}`);
+                    if(ref == 'color:' || ref == 'background:' ){
+                        console.log(`entra colores`);
+                        accDiv1 = 'flex'
+                        accDiv2 = 'none'
+                        enUso = 'color'
+                    } else {
+                        console.log(`entra imagen`);
+                        accDiv1 = 'none'
+                        accDiv2 = 'flex'
+                        enUso = 'imagen'
                     }
+
+                    //console.log(separarPalabra(opcionActual[u], ':'));    
+                    if(opcionActual[0] == 'fondo'){
+                    cod += `${retornarSelects(`opcionesFondo${i}`, ['color', 'imagen'], `onchange= "actualizarOpcionFondo(this.value, ${u}, ${i})"`, enUso)}`    
+                    }
+
                     let infColor = RgbaToHex(palabras[1])
-                    cod += `<div id='contendorColor${u}${i}'>
-                            <input class='inputColor' style='border-radius: 0.7em; border: none;' id='${id}$${u}$color' value='${infColor[0]}' type='color'>
-                            <input class='inputRange' type="range" style="background: none;" id='${id}$${u}$transparencia' value='${infColor[1] * 10}' name="transparencia" min="0" max="10">
+                    let linkImagen = buscarCaracterParaReemplazar(separarPalabra(opcionActual[u], '(')[1], ')', '')
+                    
+                    if(linkImagen[0] != '`'){
+                        linkImagen = ''
+                    }
+
+                    cod += `<div style='display: ${accDiv1}' id='contendorColor${u}${i}'>
+                            <input onchange= "actualizarOpcionFondo('color', ${u}, ${i})" class='inputColor' style='border-radius: 0.7em; border: none;' id='${id}$${u}$color' value='${infColor[0]}' type='color'>
+                            <input onchange= "actualizarOpcionFondo('color', ${u}, ${i})" class='inputRange' type="range" style="background: none;" id='${id}$${u}$transparencia' value='${infColor[1] * 10}' name="transparencia" min="0" max="10">
                             <img style="border-radius: 50%; width: 50px; height: 50px;" onclick="actualizarColor('${id}$${u}' , '${id}$${u}$color', '${id}$${u}$transparencia', '${palabras[0]}', '${i}', '${opcionActual[0]}')" src="https://res.cloudinary.com/dplncudbq/image/upload/v1669597776/nuevo_dwrcbu.png">
                             </div>
-                            <div id='contendorImagen${u}${i}'>
-                            <input oninput="actualizarColor('${id}$${u}' , '${id}$${u}$color', '${id}$${u}$transparencia', '${palabras[0]}', '${i}', '${opcionActual[0]}')" style="border-radius:0.5em; border:none; width: 100%; height: 20px; margin-top: 15px; margin-right: 15px;" type="text" name="" placeholder='link de la imagen' value="" id="inputcontendorImagen${u}${i}">
+                            <div style='display: ${accDiv2}' id='contendorImagen${u}${i}'>
+                            <input oninput="actualizarColor('${id}$${u}' , '${id}$${u}$color', '${id}$${u}$transparencia', '${palabras[0]}', '${i}', '${opcionActual[0]}', 'inputcontendorImagen${u}${i}')" style="border-radius:0.5em; border:none; width: 100%; height: 20px; margin-top: 15px; margin-right: 15px;" type="text" name="" placeholder='link de la imagen' value="${linkImagen}" id="inputcontendorImagen${u}${i}">
                             </div>`
                 } else if(opcionActual[0] == 'mostrar en modo'){
                     cod += `${retornarSelects(`${id}$${u}`, arrDisplay, `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
@@ -182,6 +202,46 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
 
         cod += `<img  style="border-radius: 50%; width: 50px; height: 50px; cursor:pointer;" onclick="borrarObjeto('${id}')" src="https://res.cloudinary.com/dplncudbq/image/upload/v1669597775/borrar_yw19rd.png">`
     
+    } else if(text == 'linkSlideGalery'){
+        cod += retornarInput(opcionActual[0], `${id}$0`)
+        cod += `<img class='mano' style="margin: 5px; height: 40px; width: 40px;" src="${opcionActual[0]}" alt="" >`
+        cod += retornarInput(opcionActual[1], `${id}$1`)
+        cod += retornarBotonBorrar(`'${id}'`, i, nombreDicPadre, opcionActual)
+    } else if(text == 'styleImagenes') {
+        
+        for (let u = 0; u < opcionActual.length; u++) {
+            if(u == 0){
+            cod += `<h3>${opcionActual[0]}</h3>`
+            } else {
+                let palabras = separarPalabra(opcionActual[u], ':'), acc = "`"
+                
+                cod += `<div style='display: block;'>
+                            <h4>${palabras[0]}</h4>`
+
+                if(opcionActual[0] == 'margen'){
+
+                    cod +=  `${retornarSelects(`${id}$filtarPaso`, arrOpcionSinRelativo, `onchange="actualizarSelect(${acc}${id}$${u}${acc}, this.value, ${acc}${palabras[0]}${acc})"`, retornarValorSelectStyle(palabras[1]))}
+                            ${retornarSelects(`${id}$${u}`, retornarArregloSelectStyle(retornarValorSelectStyle(palabras[1])), `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
+                
+                } else if(opcionActual[0] == 'ancho'|| opcionActual[0] == 'alto'){
+                    
+                    cod +=  `${retornarSelects(`${id}$filtarPaso`, arrOpcionConRelativo, `onchange="actualizarSelect(${acc}${id}$${u}${acc}, this.value, ${acc}${palabras[0]}${acc})"`, retornarValorSelectStyle(palabras[1]))}
+                            ${retornarSelects(`${id}$${u}`, retornarArregloSelectStyle(retornarValorSelectStyle(palabras[1])), `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
+                
+                } else if(opcionActual[0] == 'radio de borde'){
+                    
+                    cod += `${retornarSelects(`${id}$${u}`, retornarArregloConRangoNumerico(0, 1, 0.1, 'em'), `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
+                
+                } else if(opcionActual[0] == 'maximo imagenes'){
+                    
+                    cod += `${retornarSelects(`${id}$${u}`, retornarArregloConRangoNumerico(1, 10, 1, ''), `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
+                
+                }
+                
+                cod += `</div>`        
+            }
+        }
+            
     } else {
         cod += retornarInput(opcionActual, id)
         cod += retornarBotonBorrar(`'${id}'`, i, nombreDicPadre, opcionActual)
@@ -191,13 +251,16 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
 
 function actualizarOpcionFondo(valor, u, i){
     console.log(`actualizarOpcionFondo, valor: ${valor}, u: ${u}, i: ${i}`);
-    let con = document.getElementById(`contendorColor${u}${i}`)
+    let color = document.getElementById(`contendorColor${u}${i}`)
+    let imagen = document.getElementById(`contendorImagen${u}${i}`)
     if(valor == 'imagen'){
         referenciaColorPaso = 'imagen'
-        con.style.display = 'none'
+        color.style.display = 'none'
+        imagen.style.display = 'flex'
     } else {
         referenciaColorPaso = 'color'
-        con.style.display = 'flex'
+        color.style.display = 'flex'
+        imagen.style.display = 'none'
     }
 }
 
@@ -229,13 +292,13 @@ function borrarObjeto(id){
 
 function crearNuevoObjeto(id, valor){
     if(valor != ''){
-        console.log(diccionario);
-        console.log(`crearNuevoObjeto, id: ${id}, valor: ${valor}`);
+        //console.log(diccionario);
+        //console.log(`crearNuevoObjeto, id: ${id}, valor: ${valor}`);
         let existente = 'no', incremento = 0, idPaso = ''
 
         while(existente == 'no'){
             idPaso = `${valor}${incremento}`
-            console.log(`bucle, idPaso: ${idPaso}`);
+            //console.log(`bucle, idPaso: ${idPaso}`);
             
             for(u in diccionario){
                 for(i in diccionario[u]){
@@ -279,7 +342,7 @@ function crearNuevoObjeto(id, valor){
                 "crearNuevo": [''],
                 "class": ["centrar ", 'organizarPorFilas '],
                 "eventos": [[''], [''], ['']],
-                "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 100%"], ["alto", "height: 80%"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(107, 107, 107, 1)'], ['mostrar en modo', 'display: flex']],
+                "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 97%"], ["alto", "height: 80%"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(107, 107, 107, 1)'], ['mostrar en modo', 'display: flex']],
                 "absorber": ["si"],
                 "borrar": [''] 
             }}
@@ -292,27 +355,57 @@ function crearNuevoObjeto(id, valor){
                 "link": ["https://res.cloudinary.com/dplncudbq/video/upload/v1657988513/mias/y1_b0pxvc.mp4"],
                 "borrar": [''] 
             }}
+        }  else if(valor == 'slideGalery'){
+            cod = {"slideGalery":{
+                "id": [`${idPaso}`],
+                "class": ["centrar "],
+                "eventos": [[''], [''], ['']],
+                "linkSlideGalery": [['https://res.cloudinary.com/dplncudbq/image/upload/v1676134087/mias/n3_hsowfh.jpg', 'texto', '0'], ['https://res.cloudinary.com/dplncudbq/image/upload/v1676134085/mias/n4_b8hoot.jpg', 'texto2', '1'], ['https://res.cloudinary.com/dplncudbq/image/upload/v1676134083/mias/c8_qndgsq.jpg', 'texto3', '2']], 
+                "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: fit-content"], ["alto", "height: 100%"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(255, 255, 255, 1)'], ['fondo', 'background: rgba(7, 7, 107, 1)'], ['mostrar en modo', 'display: flex']],
+                "styleImagenes": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['maximo imagenes', 'maximoImagenes: 3']],
+                "eventosImagenes": [[''], [''], ['']],
+                "coordenadaInicio" : [0],
+                "borrar": [''] 
+            }}
         }
         
 
-        console.log(cod);  
+        //console.log(cod);  
 
         let arre = crearArreglo(id, '$')  
         let arr = []
         for( i in diccionario){
-            console.log(diccionario[i]);
-            console.log(arre[0]);
+            //console.log(diccionario[i]);
+            //console.log(arre[0]);
             if(i == arre[0]){
                 arr.push(cod)
             }
             arr.push(diccionario[i])
         }
+
+        /**en prueba 
+        let inicioDiv = 0, llegadaDiv = 0, bandera = 0
+        for (let i = 0; i < diccionario.length; i++) {
+            for(u in diccionario[i]){
+                if(diccionario[i][u]['id'] == id){ 
+                    llegadaDiv = i
+                    bandera = 1
+                    console.log(`si, id: ${id}`);
+                }
+            }
+            let llave = Object.keys(diccionario[i])[0];
+            if('div' == llave && bandera == 0){
+                inicioDiv = i + 1
+            }
+        }
+        /** */
         
         diccionario = arr
-        console.log(diccionario);
+        //console.log(diccionario);
         traducirDiccionario('porAhora')
-        console.log(diccionario);
+        //console.log(diccionario);
         avisoCorto(`se creò un ${valor}`)
+        document.getElementById(id).value = ''
     }
 }
 
@@ -341,10 +434,12 @@ function retornarValorSelectStyle(text){
     return sel
 }
 
-function actualizarColor(idDicc, idColor, idTransparencia, palabra, i, accion){
+function actualizarColor(idDicc, idColor, idTransparencia, palabra, i, accion, idInput){
     let acc = "`"
     let transparencia = 0.1 * parseInt(document.getElementById(idTransparencia).value)
     let color = hexToRgba(document.getElementById(idColor).value, transparencia)
+
+    console.log(`idDicc: ${idDicc},  idColor: ${idColor}, idTransparencia: ${idTransparencia}, palabra: ${palabra}, accion: ${accion}, idInput: ${idInput}`);
 
     if(referenciaColorPaso == 'color'){
         let coordenada = crearArreglo(idDicc, '$')[3], ref = ''
@@ -356,8 +451,10 @@ function actualizarColor(idDicc, idColor, idTransparencia, palabra, i, accion){
         console.log(`ref: ${ref}, color: ${color}`);
         actualizarDicc(idDicc, ref + color)
     } else {
-        let prueba = `background-image: url(${acc}https://res.cloudinary.com/dplncudbq/image/upload/v1658433646/mias/piano-5353974_1_gwmq3l.jpg${acc})`
-        actualizarDicc(idDicc, prueba)
+        let val = document.getElementById(idInput).value
+        let url = `background-image: url(${acc}${val}${acc})`
+        actualizarDicc(idDicc, url)
+        //traducirDiccionario('porAhora')
     }
 }
 
@@ -518,6 +615,7 @@ function crearNuevoEvento(){
     modalAtributos(nombreDicPadre)
     arrAccEventos = []
     console.log(arrAccEventos);
+    console.log(diccionario);
 }
 
 function separarPalabra(palabra, referencia){
@@ -578,3 +676,4 @@ function activarInputs(){
     }
     arrLinks = []
 }
+

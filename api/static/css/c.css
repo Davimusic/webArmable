@@ -1,5 +1,6 @@
 body{
-    background-image: url('https://res.cloudinary.com/dplncudbq/image/upload/v1670631081/mias/fondoConta_wlzfws.png');
+    /*background-image: url('https://res.cloudinary.com/dplncudbq/image/upload/v1670631081/mias/fondoConta_wlzfws.png');*/
+    background: black;
 }
 
 .inputColor{
@@ -200,3 +201,20 @@ input[type=range]::-ms-fill-lower {
 input[type=range]::-ms-fill-upper {
     background-color: black;
 } 
+
+
+
+.contenedorGaleria{
+    width: 100%;
+    height: auto;
+    flex-wrap: wrap; 
+    /*color: rgba(50, 50, 11, 0.9)*/
+}
+
+.slide.esconder{
+    display: none;
+}
+
+.slide{
+    animation: aparecer 2s;
+}

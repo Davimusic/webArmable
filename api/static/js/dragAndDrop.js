@@ -12,7 +12,9 @@ function retornarPosicionDiccionario(id){
 
 let dragAndDropEnUso = 'no'
 function accionDagAndDrop(){
-    console.log(`accionDagAndDrop, diccionario:`);
+    console.log(`dragAndDropEnUso`);
+    console.log(dragAndDropEnUso);
+    console.log(`dicc`);
     console.log(diccionario);
     if(dragAndDropEnUso == 'no'){
         dragAndDropEnUso = 'si'
@@ -106,7 +108,7 @@ function activarBanderaCambioUbicacion(){
 function renderizarDicc(){
         let cod = ''
         for(u in diccionario){
-            console.log(diccionario);
+            //console.log(diccionario);
             for(i in diccionario[u]){
                 cod += `document.getElementById('${diccionario[u][i]['id'][0]}').addEventListener("click",function() {
                     cambioUbicacion('${diccionario[u][i]['id'][0]}');

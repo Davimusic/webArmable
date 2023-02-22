@@ -1,119 +1,75 @@
-let mirar = ["`img1`", "`texto`", "`hijo`", "`video`", "`padreXD`", "`texto2`"]
+let medidaAnchoPantallaPadre = 100
 let arrAccEventos = []
 let acc = "`"
-/*let diccionario =  [   // todo objeto se le debe inyectar el  `eventoUnico(this.id, 'modalAtributos(${mirar[0]})')` para poder ser operado en el modal en la posicion 0
-                            {"img": {
-                                "id": [`img1`],
-                                "link": ["https://res.cloudinary.com/dplncudbq/image/upload/v1657473822/mias/red-304573_xrlhrp.png"],
-                                "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 25%"], ["alto", "height: 25%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 1)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
-                                "class": ["prueba"],
-                                "eventos": [[''], [''], ['']],
-                                "borrar": ['']
-                            }},
-                            {"text": {
-                                "id": ["texto"],
-                                "texto": [["Lorem ipsum dolor sit amet.", "", ""]],
-                                "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 50%"], ["alto", "height: 50%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: block']],
-                                "class": [""],
-                                "eventos": [[''], [''], ['']],
-                                "tipo": [`p`],
-                                "borrar": ['']
-                            }},
-                            {"div":{
-                                "id": ["hijo"], 
-                                "class": [""],
-                                "eventos": [[''], [''], ['']],
-                                "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 90%"], ["alto", "height: 80%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: block']],
-                                "absorber": ["si"],
-                                "crearNuevo": [''],
-                                "borrar": ['']
-                            }},
-                            /*{"espacio":{
-                                "espacios": ["0"]
-                            }},
-                            {"text": {
-                                "id": ["texto2"],
-                                "texto": [["Lorem ipsum dolor sit amet 2 XD.", "", ""]],
-                                "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: min-content"], ["alto", "height: min-content"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: block']],
-                                "class": [""],
-                                "eventos": [[''], [''], ['']],
-                                "tipo": [`p`],
-                                "borrar": ['']
-                            }},
-                            {"video": {
-                                "id": ["video"],
-                                "style": [['margen',"margin-top: 20px", "margin-right: 20px", "margin-left: 20px", "margin-bottom: 20px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 200px"], ["alto", "height: 200px"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
-                                "class": [""],
-                                "eventos": [[''], [''], ['']],
-                                "link": ["https://res.cloudinary.com/dplncudbq/video/upload/v1657988513/mias/y1_b0pxvc.mp4"],
-                                "borrar": ['']
-                            }},
-                            {"div":{
-                                "id": ["padreXD"], 
-                                "class": [""],
-                                "eventos": [[''], [''], ['']],
-                                "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 100%"], ["alto", "height: 80%"], ['radio de borde',"border-top-left-radius: 0.7em", "border-top-right-radius: 0.7em", "border-bottom-left-radius: 0.7em", "border-bottom-right-radius: 0.7em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: block']],
-                                "absorber": ["si"],
-                                "crearNuevo": [''],
-                                "borrar": [''] 
-                            }},
-                            
-                    ]*/
+
 let diccionario =  [   // todo objeto se le debe inyectar el  `eventoUnico(this.id, 'modalAtributos(${mirar[0]})')` para poder ser operado en el modal en la posicion 0
                     {"div":{
                         "id": ["contenedor0"],
                         "crearNuevo": [''], 
                         "class": ["centrar ", 'organizarPorFilas '],
                         "eventos": [[''], [''], ['']],
-                        "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 100%"], ["alto", "height: 100%"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
+                        "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 97%"], ["alto", "height: 100%"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(255, 255, 255, 1)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
                         "absorber": ["si"],
                         "borrar": [''] 
-                    }},                   
+                    }}                  
             ]                    
 let detenerOnclickModal = "no"                    
 
 function traducirDiccionario(id){
-    let codigoHTML = ""
+    //arrePadreSlideGalery = [], arrSGIma = [], arrSlideGaleryEventos = [], 
+    //arrePadre = [], arrLinksImagenes = {}, idActual = [], llave = 0, banderaPrimerUsoSlideGalery = 0
 
+    let codigoHTML = ""
 
     codigoHTML += ` <div style='position: absolute; z-index: 999; top: 0; right: 500; width: min-content; border: none; display: flex; flex-wrap: wrap; margin-left: 100px;'>
                         ${retornarBotonDetenerOnclickModal()}
                         ${retornarBotonDragAndDrop()}
                         ${retornarTipoDeLetra()}
+                        <input onchange= "actualizarAnchoContenedorPadre(this.value)" class='inputRange' type="range" style="background: none; margin-top: 20px;" id='' value='${medidaAnchoPantallaPadre}' name="" min="0" max="100">
                     </div> `
 
-    /*for (let i = diccionario.length - 1; i >= 0; i--) {
-        let llaveHija = Object.keys(diccionario[i])[0];
-        console.log(llaveHija, diccionario[i][llaveHija]);
-        let dicc = diccionario[i][llaveHija]
-        if(llaveHija == "div"){
-            codigoHTML = decidirAccionArmadoComponents(llaveHija, dicc, codigoHTML)
-            //console.log(codigoHTML);
-        } else {
-            codigoHTML += decidirAccionArmadoComponents(llaveHija, dicc, codigoHTML)
-            //console.log(codigoHTML);
-        }         
-    }*/
 
+    //let num = 5000
     for (llavePadre in diccionario) {
-        //console.log(`llavePadre: ${llavePadre}`);
         for (llaveHija in diccionario[llavePadre]){
-            //console.log(`llaveHija: ${llaveHija}`);
             let dicc = diccionario[llavePadre][llaveHija]
             if(llaveHija == "div"){
                 codigoHTML = decidirAccionArmadoComponents(llaveHija, dicc, codigoHTML)
                 //console.log(codigoHTML);
-            } /*else {
-                codigoHTML += decidirAccionArmadoComponents(llaveHija, dicc, codigoHTML)
-                //console.log(codigoHTML);
-            } */ 
+            } 
         }
     }
 
-    //console.log(codigoHTML);
     document.getElementById(id).innerHTML = codigoHTML 
+    
 
+    //console.log(`---------------------------`);
+    
 }
+
+function actualizarAnchoContenedorPadre(valor){
+    document.getElementById('porAhora').style.width = `${valor}%`
+    medidaAnchoPantallaPadre = valor
+}
+
+/*function mirar(arr){
+    for (let u = 0; u < arr.length; u++) {
+        eval(arr[u])
+    }
+    wait(1000)
+    DetenerOnclickModal()
+}*/
+
+/*async function activarObjectoComplejo(nombreFuncion, arr, textos, id, delay) {
+    //console.log(`activarObjectoComplejo, nombreFuncion: ${nombreFuncion}, arr: ${arr}, id: ${id}, delay: ${delay}`);
+    //console.log(arr);
+    await wait(delay);
+    //console.log(`arranca`);
+    let text = `${nombreFuncion}('${id}', '${arr}', '${textos}')`
+    //console.log(text);
+    //let arree = ['https://res.cloudinary.com/dplncudbq/image/upload/v1676134057/mias/3-3_k4rrwz.jpg', 'https://res.cloudinary.com/dplncudbq/image/upload/v1676134057/mias/3-3_k4rrwz.jpg', 'https://res.cloudinary.com/dplncudbq/image/upload/v1676134057/mias/3-3_k4rrwz.jpg']
+    eval(text)
+}*/
 
 function buscarBloque(bloqueID){
     //console.log(`desde buscarBloque, id: ${bloqueID}`);
@@ -181,6 +137,8 @@ function decidirAccionArmadoComponents(llaveHija, dicc, codigoHTML){
         let concatenado = `id = "${dicc['id']}" style = "${quitarComasDeArreglo(unificarArreglos(dicc['style'], '; '))}" class = "${quitarComasDeArreglo(dicc['class'])}" ${quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id']))}`
         return texto(dicc['tipo'], concatenado, dicc['texto'], `${separarPalabra(dicc['style'][5], 'color letra')[1]}; ${separarPalabra(dicc['style'][6], 'fondo')[1]};`, `${quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id']))}`, `${dicc['id']}`)
         
+    } else if(llaveHija == 'slideGalery'){
+        return slideGalery(dicc['id'][0], quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id'])), quitarComasDeArreglo(dicc['class']), buscarCaracterParaReemplazar(quitarComasDeArreglo(unificarArreglos(dicc['style'], '; ')), '`', `'`), dicc)
     }
 }
 
@@ -241,7 +199,11 @@ function agregarEventos(arr, id){
                     } else if(Object.keys(diccionario[i]) == 'video'){
                         colorFondoPaso = 'rgba(221, 224, 11, 0.9)'
                         colorLetraPaso = 'rgba(221, 224, 11, 0.9)'
+                    } else if(Object.keys(diccionario[i]) == 'slideGalery'){
+                        colorFondoPaso = 'rgba(50, 50, 11, 0.9)'
+                        colorLetraPaso = 'rgba(221, 224, 11, 0.9)'
                     }
+
                 }
             }
         }
@@ -446,8 +408,12 @@ function crearItem(id, idPadre){
     console.log(`crearItem, id: ${id}, idPadre: ${idPadre}, arr: ${arr}, ruta: ${ruta}`);
     
     let contenido = ''
+    console.log(arr[2]);
     if(arr[2] == 'texto'){
         contenido = `['', '', '']`
+    } else if(arr[2] == 'linkSlideGalery'){
+        let num = parseInt(eval(`${ruta}.length`))
+        contenido = `['https://res.cloudinary.com/dplncudbq/image/upload/v1676134087/mias/n3_hsowfh.jpg', 'lorem ipsum', '${num}']`
     } else {
         contenido = `''`
     }

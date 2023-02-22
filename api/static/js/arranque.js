@@ -11,7 +11,7 @@ function eventoUnico(id, accion){
     if(habilitarUsoEvento == true){
         //console.log(`eventoUnico, id: ${id},accion: ${accion}`);
         habilitarUsoEvento = false;
-
+        console.log(`eventoUnico: ${accion}`);
         arre = accion.split('/'); 
         
         //console.log(arre);
@@ -82,3 +82,7 @@ function actualizarTipoDeLetra(cod){
 window.onbeforeunload = function () {
     return "¿Está seguro de que desea salir sin guardar?";
 };
+
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}

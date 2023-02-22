@@ -1,4 +1,4 @@
-let bloqueEnUso = "sin activar";
+let bloqueEnUso = "sin activar", estadoModal = 'desactivado;'
 
 function actualizarBloqueEnUso(text){
     bloqueEnUso = text
@@ -36,6 +36,7 @@ function desactivarModal(){
 	idModal.style.transition = "1s";
 	idModal.style.height = "0px";
 	idModal.style.opacity = "0";
+	estadoModal = 'desactivado'
 	setTimeout(esconderModal, 500)
 }
 
@@ -45,6 +46,7 @@ function esconderModal(){
 }
 
 function modal(contenido){
+	estadoModal = 'activado'
 	let conte = ""
 
 	if(contenido != undefined){

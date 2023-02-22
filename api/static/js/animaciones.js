@@ -1,5 +1,5 @@
 function rotar(id, segundos, grados){
-    console.log(`id: ${id}, segundos: ${segundos}, grados: ${grados}`);
+    //console.log(`id: ${id}, segundos: ${segundos}, grados: ${grados}`);
     let objeto = document.getElementById(id)
     objeto.style.transition =  `${segundos}s`
     objeto.style.transform = `rotate(${grados}deg)`
@@ -15,6 +15,7 @@ function rotar3d(id, segundos, grados){
 }
 
 function cambiarColor(id, segundos, color){
+    //console.log(id);
     let objeto = document.getElementById(id)
     objeto.style.transition =  `${segundos}s`
     objeto.style.background = `${color}`
@@ -46,6 +47,7 @@ function desplazar(id, segundos, x, y){
 }
 
 function cambiarTamano(id, segundos, especificacion, tamano){
+    console.log(`id: ${id}, segundos: ${segundos}, especificacion: ${especificacion}, tamano: ${tamano}`);
     let objeto = document.getElementById(id)
     objeto.style.transition =  `${segundos}s`
     eval(`objeto.style.${especificacion} = '${tamano}px'`)
