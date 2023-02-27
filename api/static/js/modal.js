@@ -132,7 +132,7 @@ function avisoCorto(mensaje){
 }
 
 function cerraAviso(){
-	console.log('entra');
+	//console.log('entra');
 	let toast = document.getElementById('toast')
 	toast.style.display = 'none'
 }

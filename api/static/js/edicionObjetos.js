@@ -73,6 +73,8 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
     let arrOpcionConRelativo = ['pixeles', 'porcentajes', 'relativo']
     let arrOpcionSinRelativo = ['pixeles', 'porcentajes']
     let arreObjetosCreables = ['', 'contenedor', 'imagen', 'texto', 'video', 'slideGalery']
+    let arrOpcion = ['pixeles', 'porcentajes', 'em']
+    let arrSoloPorcentajes = ['porcentajes']
         
     let cod = ''
     if(text == 'class'){
@@ -130,19 +132,20 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
                 
                 } else if(opcionActual[0] == 'radio de borde'){
                     
-                    cod += `${retornarSelects(`${id}$${u}`, retornarArregloConRangoNumerico(0, 1, 0.1, 'em'), `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
+                    cod += `${retornarSelects(`${id}$filtarPaso`, arrOpcion, `onchange="actualizarSelect(${acc}${id}$${u}${acc}, this.value, ${acc}${palabras[0]}${acc})"`, retornarValorSelectStyle(palabras[1]))}
+                            ${retornarSelects(`${id}$${u}`, retornarArregloSelectStyle(retornarValorSelectStyle(palabras[1])), `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
                 
                 } else if(opcionActual[0] == 'color letra' || opcionActual[0] == 'fondo'){
                     //console.log(buscarCaracterParaReemplazar(separarPalabra(opcionActual[u], '(')[1], ')', ''));
                     let ref = separarPalabra(opcionActual[u], ':')[0],  accDiv1 = '', accDiv2 = '', enUso = ''
                     //console.log(`opcionActual: ${opcionActual}, text: ${text}, id: ${id}, idItem: ${idItem}, i: ${i}, nombreDicPadre: ${nombreDicPadre}`);
                     if(ref == 'color:' || ref == 'background:' ){
-                        console.log(`entra colores`);
+                        //console.log(`entra colores`);
                         accDiv1 = 'flex'
                         accDiv2 = 'none'
                         enUso = 'color'
                     } else {
-                        console.log(`entra imagen`);
+                        //console.log(`entra imagen`);
                         accDiv1 = 'none'
                         accDiv2 = 'flex'
                         enUso = 'imagen'
@@ -206,7 +209,7 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
         cod += retornarInput(opcionActual[0], `${id}$0`)
         cod += `<img class='mano' style="margin: 5px; height: 40px; width: 40px;" src="${opcionActual[0]}" alt="" >`
         cod += retornarInput(opcionActual[1], `${id}$1`)
-        cod += retornarBotonBorrar(`'${id}'`, i, nombreDicPadre, opcionActual)
+        cod += retornarBotonBorrar(`'${id}'`, i, nombreDicPadre, opcionActual, `'${text}'`)
     } else if(text == 'styleImagenes') {
         
         for (let u = 0; u < opcionActual.length; u++) {
@@ -220,7 +223,7 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
 
                 if(opcionActual[0] == 'margen'){
 
-                    cod +=  `${retornarSelects(`${id}$filtarPaso`, arrOpcionSinRelativo, `onchange="actualizarSelect(${acc}${id}$${u}${acc}, this.value, ${acc}${palabras[0]}${acc})"`, retornarValorSelectStyle(palabras[1]))}
+                    cod +=  `${retornarSelects(`${id}$filtarPaso`, arrSoloPorcentajes, `onchange="actualizarSelect(${acc}${id}$${u}${acc}, this.value, ${acc}${palabras[0]}${acc})"`, retornarValorSelectStyle(palabras[1]))}
                             ${retornarSelects(`${id}$${u}`, retornarArregloSelectStyle(retornarValorSelectStyle(palabras[1])), `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
                 
                 } else if(opcionActual[0] == 'ancho'|| opcionActual[0] == 'alto'){
@@ -230,11 +233,16 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
                 
                 } else if(opcionActual[0] == 'radio de borde'){
                     
-                    cod += `${retornarSelects(`${id}$${u}`, retornarArregloConRangoNumerico(0, 1, 0.1, 'em'), `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
+                    cod += `${retornarSelects(`${id}$filtarPaso`, arrOpcion, `onchange="actualizarSelect(${acc}${id}$${u}${acc}, this.value, ${acc}${palabras[0]}${acc})"`, retornarValorSelectStyle(palabras[1]))}
+                            ${retornarSelects(`${id}$${u}`, retornarArregloSelectStyle(retornarValorSelectStyle(palabras[1])), `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
                 
                 } else if(opcionActual[0] == 'maximo imagenes'){
                     
                     cod += `${retornarSelects(`${id}$${u}`, retornarArregloConRangoNumerico(1, 10, 1, ''), `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
+                
+                } else if(opcionActual[0] == 'alto y ancho imagen'){
+                    
+                    cod += `${retornarSelects(`${id}$${u}`, retornarArregloConRangoNumerico(50, 400, 1, ''), `onchange="actualizarDicc(this.id, ${acc}${palabras[0]}${acc} + this.value)"`, palabras[1])}`
                 
                 }
                 
@@ -242,6 +250,10 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
             }
         }
             
+    } else if(text == 'linkBotonesOpciones'){
+        cod += cod += `<h3>${opcionActual[0]}</h3>`
+        cod += retornarInput(opcionActual[1], `${id}$1`)
+    
     } else {
         cod += retornarInput(opcionActual, id)
         cod += retornarBotonBorrar(`'${id}'`, i, nombreDicPadre, opcionActual)
@@ -361,9 +373,10 @@ function crearNuevoObjeto(id, valor){
                 "class": ["centrar "],
                 "eventos": [[''], [''], ['']],
                 "linkSlideGalery": [['https://res.cloudinary.com/dplncudbq/image/upload/v1676134087/mias/n3_hsowfh.jpg', 'texto', '0'], ['https://res.cloudinary.com/dplncudbq/image/upload/v1676134085/mias/n4_b8hoot.jpg', 'texto2', '1'], ['https://res.cloudinary.com/dplncudbq/image/upload/v1676134083/mias/c8_qndgsq.jpg', 'texto3', '2']], 
-                "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: fit-content"], ["alto", "height: 100%"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(255, 255, 255, 1)'], ['fondo', 'background: rgba(7, 7, 107, 1)'], ['mostrar en modo', 'display: flex']],
-                "styleImagenes": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['maximo imagenes', 'maximoImagenes: 3']],
+                "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: fit-content"], ["alto", "height: fit-content"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(255, 255, 255, 1)'], ['fondo', 'background: rgba(7, 7, 107, 1)'], ['mostrar en modo', 'display: block']],
+                "styleImagenes": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['maximo imagenes', 'maximoImagenes: 3'], ['alto y ancho imagen', 'cuadrado: 200']],
                 "eventosImagenes": [[''], [''], ['']],
+                "linkBotonesOpciones": [['boton adelante', 'https://res.cloudinary.com/dplncudbq/image/upload/v1676133410/mias/adelante_ztqvpx.png'], ['boton atras', 'https://res.cloudinary.com/dplncudbq/image/upload/v1676133407/mias/atras_lfyntg.png'], ['item no seleccionado', 'https://res.cloudinary.com/dplncudbq/image/upload/v1676133403/mias/circuloVacio_pfaat6.png'], ['item seleccionado', 'https://res.cloudinary.com/dplncudbq/image/upload/v1676133405/mias/circuloRelleno_dehcpk.png']], 
                 "coordenadaInicio" : [0],
                 "borrar": [''] 
             }}
@@ -374,36 +387,44 @@ function crearNuevoObjeto(id, valor){
 
         let arre = crearArreglo(id, '$')  
         let arr = []
-        for( i in diccionario){
-            //console.log(diccionario[i]);
-            //console.log(arre[0]);
-            if(i == arre[0]){
-                arr.push(cod)
-            }
-            arr.push(diccionario[i])
-        }
+        console.log(`arre:`);
+        console.log(arre);
+        
+        //usados unicamente para cuando se crea un nuevo div, busca reubicar divs con sus contenidos
+        let arreObjetosPaso = [], arreDivs = [], arrIdDivs = []
 
-        /**en prueba 
-        let inicioDiv = 0, llegadaDiv = 0, bandera = 0
-        for (let i = 0; i < diccionario.length; i++) {
-            for(u in diccionario[i]){
-                if(diccionario[i][u]['id'] == id){ 
-                    llegadaDiv = i
-                    bandera = 1
-                    console.log(`si, id: ${id}`);
+        for( u in diccionario){
+            if(valor != 'contenedor'){
+                if(u == arre[0]){
+                    arr.push(cod)
                 }
-            }
-            let llave = Object.keys(diccionario[i])[0];
-            if('div' == llave && bandera == 0){
-                inicioDiv = i + 1
+                arr.push(diccionario[u])
+            } else { // todo este corchete para correr el div ya creado con su conetido y poner otro nuevo encima
+                for(i in diccionario[u]){ 
+                    if(i == 'div'){
+                        arrIdDivs.push(u)
+                        arreObjetosPaso.push(diccionario[u])
+                        arreDivs.push(arreObjetosPaso)
+                        arreObjetosPaso = []
+                    } else {
+                        arreObjetosPaso.push(diccionario[u])
+                    }
+                }
+                let arrPaso = []
+                for (let u = 0; u < arreDivs.length; u++) {
+                    if(arre[0] == arrIdDivs[u]){
+                        arrPaso.push(cod)
+                    }
+                    for (let i = 0; i < arreDivs[u].length; i++) {
+                        arrPaso.push(arreDivs[u][i])
+                    }
+                }
+                arr = arrPaso
             }
         }
-        /** */
         
         diccionario = arr
-        //console.log(diccionario);
         traducirDiccionario('porAhora')
-        //console.log(diccionario);
         avisoCorto(`se creò un ${valor}`)
         document.getElementById(id).value = ''
     }
@@ -415,6 +436,8 @@ function retornarArregloSelectStyle(tipo) {
         arr = retornarArregloConRangoNumerico(0, 500, 20, 'px')
     } else if(tipo == 'porcentajes'){
         arr = retornarArregloConRangoNumerico(2, 100, 1, '%')
+    } else if(tipo == 'em'){
+        arr = retornarArregloConRangoNumerico(0, 100, 1, 'em')
     } else if(tipo == 'relativo') {
         arr = ['min-content', 'max-content', 'fit-content']
     }
@@ -427,10 +450,12 @@ function retornarValorSelectStyle(text){
         sel = 'pixeles'
     } else if(text.indexOf('%') != -1){
         sel = 'porcentajes'
+    } else if(text.indexOf('em') != -1){
+        sel = 'em'
     } else if(text.indexOf('min-content') != -1 || text.indexOf('max-content') != -1 || text.indexOf('fit-content') != -1){
         sel = 'relativo'
     }
-    //console.log(`retornarValorSelectStyle: ${text.indexOf('px')}`)
+   //console.log(`retornarValorSelectStyle, text: ${text}, retorna: ${sel}`);
     return sel
 }
 

@@ -1,4 +1,4 @@
-let medidaAnchoPantallaPadre = 100
+let medidaAnchoPantallaPadre = 100, tipoDeletra = 'Open Sans'
 let arrAccEventos = []
 let acc = "`"
 
@@ -16,17 +16,23 @@ let diccionario =  [   // todo objeto se le debe inyectar el  `eventoUnico(this.
 let detenerOnclickModal = "no"                    
 
 function traducirDiccionario(id){
-    //arrePadreSlideGalery = [], arrSGIma = [], arrSlideGaleryEventos = [], 
-    //arrePadre = [], arrLinksImagenes = {}, idActual = [], llave = 0, banderaPrimerUsoSlideGalery = 0
+    console.log(`detenerOnclickModal: ${detenerOnclickModal}`);
+    console.log(`dragAndDropEnUso: ${dragAndDropEnUso}`);
 
     let codigoHTML = ""
 
-    codigoHTML += ` <div style='position: absolute; z-index: 999; top: 0; right: 500; width: min-content; border: none; display: flex; flex-wrap: wrap; margin-left: 100px;'>
+    /*codigoHTML += ` <div style='background: gold;  z-index: 999; width: 100%;  justify-content: space-around; border: none; display: flex;'>
                         ${retornarBotonDetenerOnclickModal()}
                         ${retornarBotonDragAndDrop()}
-                        ${retornarTipoDeLetra()}
-                        <input onchange= "actualizarAnchoContenedorPadre(this.value)" class='inputRange' type="range" style="background: none; margin-top: 20px;" id='' value='${medidaAnchoPantallaPadre}' name="" min="0" max="100">
-                    </div> `
+                        <div>
+                            <p>Tipo de letra</p>
+                            ${retornarTipoDeLetra()}
+                        </div>
+                        <div>
+                            <p>Responsive</p>
+                            <input onchange= "actualizarAnchoContenedorPadre(this.value)" class='inputRange' type="range" style="background: none; margin-top: 20px;" id='' value='${medidaAnchoPantallaPadre}' name="" min="0" max="100">
+                        </div>
+                    </div> `*/
 
 
     //let num = 5000
@@ -48,8 +54,11 @@ function traducirDiccionario(id){
 }
 
 function actualizarAnchoContenedorPadre(valor){
-    document.getElementById('porAhora').style.width = `${valor}%`
+    let divPadre = document.getElementById('porAhora')
+    divPadre.style.transition = '2s'
+    divPadre.style.width = `${valor}%`
     medidaAnchoPantallaPadre = valor
+    divPadre.style.marginLeft = `${(100 - parseInt(valor)) / 2}%`
 }
 
 /*function mirar(arr){
@@ -360,11 +369,16 @@ function borrarItem(id, codItem, idPadre, text){
     }
     
     console.log(`ruta: ${ruta}, id: ${id}, codItem: ${codItem}, Idpadre: ${idPadre}, arr: ${arr}, coordenada: ${coordenada}`);
+    
+    console.log('antes de borrar');
+    console.log(diccionario);
     let arreglo =  eval(ruta) //diccionario[1].text.texto
+    
+    console.log(arreglo);
     
     let arre = []
     console.log(`text: ${text}`);
-    if(text == 'texto'){
+    if(text == 'texto'  || text == 'linkSlideGalery'  ){
         for (let u = 0; u < arreglo.length; u++) {
             if(u != coordenada){
                 let tex = '['
@@ -387,7 +401,8 @@ function borrarItem(id, codItem, idPadre, text){
     console.log(arre);
     console.log(`${ruta} = [${arre}]`);
     eval(`${ruta} = [${arre}]`)
-    //console.log(diccionario);
+    console.log('despues de borrar');
+    console.log(diccionario);
     traducirDiccionario('porAhora')
     modalAtributos(idPadre)
     idElementoEnUso = arr[2]

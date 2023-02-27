@@ -154,7 +154,7 @@ function imagen(link, style, clas, events, id){
 
 //dicc['id'][0], dicc['linkSlideGalery'], dicc['styleImagenes'],  dicc['eventosImagenes'],  quitarComasDeArreglo(agregarEventos(dicc['eventos'], quitarComasDeArreglo(dicc['class']), dicc['id'])), buscarCaracterParaReemplazar(quitarComasDeArreglo(unificarArreglos(dicc['style'], '; ')), '`', `'`), dicc
 function slideGalery(id, eventosContenedor, clases, estilosGenerales, dicc){
-    console.log(dicc);
+    //console.log(dicc);
 
     let arr = dicc['linkSlideGalery']
                 let textArr = '', texto = ''
@@ -171,10 +171,8 @@ function slideGalery(id, eventosContenedor, clases, estilosGenerales, dicc){
         }
     }
 
-    console.log(dicc['eventosImagenes']);
-
     
-    return objetoSlideGalery(id, textArr, texto, eventosContenedor, estilosGenerales, clases, textEstilosImagenes, estilosImagenes[2][1], dicc['eventosImagenes'])
+    return objetoSlideGalery(id, textArr, texto, eventosContenedor, estilosGenerales, clases, textEstilosImagenes, estilosImagenes[2][1], dicc['eventosImagenes'], dicc)
 }
 
 function mapa(){

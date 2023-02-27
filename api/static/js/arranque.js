@@ -1,9 +1,23 @@
 function arranque(){
-    let divPadre = document.getElementById("root")
-    let cod =  modal()
-    divPadre.innerHTML = cod //+ `${<script src="script.js"></script>}`
+    document.getElementById("root").innerHTML = modal()
+    document.getElementById('editor').innerHTML = retornarBotonesEdicion()
     traducirDiccionario('porAhora') // es el id del div a inyectar 
-    actualizarTipoDeLetra('Open Sans')
+    actualizarTipoDeLetra(tipoDeletra)
+}
+
+function retornarBotonesEdicion(){
+    return  ` <div style='color: white; background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(79,79,82,0.6783088235294117) 100%);  z-index: 999; width: 100%; display: flex; justify-content: space-around; flex-wrap: wrap; border: none;'>
+                ${retornarBotonDetenerOnclickModal()}
+                ${retornarBotonDragAndDrop()}
+                <div>
+                    <p>Tipo de letra</p>
+                    ${retornarTipoDeLetra()}
+                </div>
+                <div>
+                    <p>Responsive</p>
+                    <input onchange= "actualizarAnchoContenedorPadre(this.value)" class='inputRange' type="range" style="background: none; margin-top: 20px;" id='' value='${medidaAnchoPantallaPadre}' name="" min="20" max="100">
+                </div>
+            </div> `
 }
 
 let habilitarUsoEvento = true
@@ -11,12 +25,12 @@ function eventoUnico(id, accion){
     if(habilitarUsoEvento == true){
         //console.log(`eventoUnico, id: ${id},accion: ${accion}`);
         habilitarUsoEvento = false;
-        console.log(`eventoUnico: ${accion}`);
+        //console.log(`eventoUnico: ${accion}`);
         arre = accion.split('/'); 
         
         //console.log(arre);
         for (let u = 0; u < arre.length; u++) {
-            console.log(`arre[u]: ${arre[u]}, id: ${id}`);
+            //console.log(`arre[u]: ${arre[u]}, id: ${id}`);
             document.getElementById(id).addEventListener("click", eval(arre[u]))
         }
         setTimeout(rehabilitarUsoEventos, 500)
@@ -42,11 +56,15 @@ function DetenerOnclickModal(){
     if(detenerOnclickModal == 'no'){
         textoBotonEdicion = 'modo edicion detenido'
         colorBotonEdicion = 'red';
-        detenerOnclickModal = 'si'  
+        detenerOnclickModal = 'si' 
+        dragAndDropEnUso = 'si' 
+        document.getElementById('cambiarDragAndDrop').style.background = 'green'
     } else {
         textoBotonEdicion = 'modo edicion activado'
         colorBotonEdicion = 'green';
         detenerOnclickModal = 'no'
+        dragAndDropEnUso = 'no'
+        document.getElementById('cambiarDragAndDrop').style.background = 'red'
     }
     traducirDiccionario('porAhora')
     setTimeout(actBotonEditar, 80)
@@ -61,7 +79,7 @@ function actBotonEditar(){
 
 function retornarTipoDeLetra(){
     let arr = [  "Open Sans",  "Roboto",  "Montserrat",  "Lato",  "Oswald",  "Slabo 27px",  "Raleway",  "PT Sans",  "Noto Sans",  "Source Sans Pro",  "Droid Sans",  "Bitter",  "Dosis",  "Exo 2",  "Francois One",  "Russo One",  "Unna",  "Arial",  "Verdana",  "Helvetica",  "Tahoma",  "Times New Roman",  "Courier New",  "Comic Sans MS",  "Impact",  "Lucida Sans Unicode",  "Trebuchet MS",  "Georgia",  "Palatino Linotype",  "Garamond",  "Bookman Old Style",  "Arial Black",  "Arial Narrow",  "Century Gothic",  "Franklin Gothic Medium",  "Lucida Console",  "MS Sans Serif",  "MS Serif",  "Andale Mono",  "Arial Rounded MT Bold",  "Baskerville",  "Bitstream Vera Sans",  "Calibri",  "Candara",  "Century Schoolbook",  "Consolas",  "Constantia",  "Corbel",  "Didot",  "Gill Sans",  "Hoefler Text",  "Lucida Bright",  "Lucida Grande",  "Palatino",  "Rockwell",  "Rockwell Extra Bold",  "Bodoni MT",  "Book Antiqua",  "Copperplate Gothic Light",  "DejaVu Sans",  "DejaVu Serif",  "Minion Pro",  "Myriad Pro",  "Goudy Old Style",  "Stencil",  "Goudy Stout",  "Bradley Hand ITC",  "MV Boli",  "Ink Free",  "Jokerman",  "Tempus Sans ITC",  "Wide Latin",  "Viner Hand ITC"];
-    return retornarSelects('tipoLetra', arr, `oninput="actualizarTipoDeLetra(this.value)"`, 'Open Sans')
+    return retornarSelects('tipoLetra', arr, `oninput="actualizarTipoDeLetra(this.value)"`, tipoDeletra)
 }
 
 function actualizarTipoDeLetra(cod){
@@ -76,7 +94,8 @@ function actualizarTipoDeLetra(cod){
     //console.log(ref);
     document.getElementById('linkLetra').innerHTML = `<link id="linkLetra" href='https://fonts.googleapis.com/css2?family=${ref}' rel='stylesheet'>`
     //console.log(`actualizarTipoDeLetra: ` + `'${cod}', sans-serif`);
-    document.body.style.fontFamily = `'${cod}', sans-serif`;
+    tipoDeletra = cod
+    document.body.style.fontFamily = `'${tipoDeletra}', sans-serif`;
 }
 
 window.onbeforeunload = function () {
