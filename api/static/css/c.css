@@ -1,7 +1,13 @@
 body{
     /*background-image: url('https://res.cloudinary.com/dplncudbq/image/upload/v1670631081/mias/fondoConta_wlzfws.png');*/
-    background: black;
+    background:black;
 }
+
+select, input{
+    cursor: pointer;
+}
+
+
 
 .inputColor{
     -webkit-appearance: none;
@@ -42,9 +48,10 @@ button:hover{
     -moz-box-shadow: 2px 3px 17px 7px rgba(0,0,0,0.52);
 }
 
+
 .opcionSeleccionable{
     cursor: pointer;
-    color: rgba(255, 255, 255, 0.973)
+    /*color: rgba(255, 255, 255, 0.973)*/
 }
 
 .anchoMinimo{
@@ -125,7 +132,7 @@ h3, h4{
 }
 
 .espacioEquilatero{
-    justify-content: space-between;
+    justify-content: space-around; /**space-between;*/
 }
 
 

@@ -1,6 +1,6 @@
 //son las posibilidades que permiten armar los componenentes
 
-function texto(tipo, acc, text, colorYFondo, eventos, id){
+function texto(tipo, acc, text, colorYFondo, eventos, id, style){
     //console.log(`tipo: ${tipo}, acc: ${acc}, text: ${text}, colorYFondo: ${colorYFondo}, eventos: ${eventos}, id: ${id}`);
     let arreText = []
     for (let u = 0; u < text.length; u++) {
@@ -38,9 +38,10 @@ function texto(tipo, acc, text, colorYFondo, eventos, id){
 
     //console.log(`textoPaso: ${textoPaso}`);
     //console.log(`textoConcatenado: ${textoConcatenado}`);
-
+    //console.log(style);
+    style = buscarCaracterParaReemplazar(style, '`', `'`)
     let cod = `
-        <${tipo} ${acc}>
+        <${tipo} ${acc} style="${style}">
             ${textoConcatenado}
         </${tipo}>
     `
@@ -139,22 +140,17 @@ function video(aa, link){
     <source src="${link}" type="video/mp4">
     </video>
     `
-    //console.log(`salida video, aa: ${aa}, link: ${link}`);
     return cod;
 }
 
 function imagen(link, style, clas, events, id){
-    //console.log(`link: ${link}, style: ${style}, clas: ${clas}, events: ${events}, id: ${id}, animation: ${animation}`);
     let cod = `
-    <img id="${id}" src="${link}" style="${style}" class="${clas}" ${events} alt="">
+    <img id="${id}" src="${link}" style="${buscarCaracterParaReemplazar(style, '`', `'`)}" class="${clas}" ${events} alt="">
     `
-    //console.log(cod);
     return cod;
 }
 
-//dicc['id'][0], dicc['linkSlideGalery'], dicc['styleImagenes'],  dicc['eventosImagenes'],  quitarComasDeArreglo(agregarEventos(dicc['eventos'], quitarComasDeArreglo(dicc['class']), dicc['id'])), buscarCaracterParaReemplazar(quitarComasDeArreglo(unificarArreglos(dicc['style'], '; ')), '`', `'`), dicc
 function slideGalery(id, eventosContenedor, clases, estilosGenerales, dicc){
-    //console.log(dicc);
 
     let arr = dicc['linkSlideGalery']
                 let textArr = '', texto = ''
@@ -163,14 +159,14 @@ function slideGalery(id, eventosContenedor, clases, estilosGenerales, dicc){
                     texto += arr[u][1] + '&'
                 }
 
-    let estilosImagenes = dicc['styleImagenes']
-    let textEstilosImagenes = ''
+    let estilosImagenes = dicc['styleImagenes'], textEstilosImagenes = ''
     for (let u = 0; u < (estilosImagenes.length - 1); u++) {
         for (let e = 1; e < estilosImagenes[u].length; e++) {
             textEstilosImagenes += estilosImagenes[u][e] + '; '
         }
     }
-
+    
+    estilosGenerales = buscarCaracterParaReemplazar(estilosGenerales, '`', `'`)
     
     return objetoSlideGalery(id, textArr, texto, eventosContenedor, estilosGenerales, clases, textEstilosImagenes, estilosImagenes[2][1], dicc['eventosImagenes'], dicc)
 }
@@ -190,6 +186,16 @@ function mapa(){
     `
     console.log(`window.innerHeight: ${window.innerHeight}, window.innerWidth: ${window.innerWidth}`);
     return cod
+}
+
+function codEmbebido(id, eventos, clas, estilos, codigo){
+    estilos = buscarCaracterParaReemplazar(estilos, '`', `'`)
+    console.log(estilos);
+    let code = `
+    <div id = '${id}' class='${clas}' style="${estilos} overflow-x: auto; white-space: nowrap;" ${eventos}>
+        ${codigo}
+    </div>`
+    return code
 }
 
 function anchoVentana(){

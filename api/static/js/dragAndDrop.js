@@ -12,7 +12,6 @@ function retornarPosicionDiccionario(id){
     return numId
 }
 
-// async
 function accionDagAndDrop(){
     //await wait(2000)
     console.log('empieza');
@@ -20,12 +19,13 @@ function accionDagAndDrop(){
     if(dragAndDropEnUso == 'no'){
         dragAndDropEnUso = 'si'
         //alert('acti')
-        textoBotonEdicion = 'modo edicion detenido', colorBotonEdicion = 'red', detenerOnclickModal = 'si'
+        //textoBotonEdicion = 'edicion', 
+        colorBotonEdicion = 'red', detenerOnclickModal = 'si'
         traducirDiccionario('porAhora')
         actBotonEditar()
         
         renderizarDicc()
-        let arrColores = ['rgba(66, 5, 66, 0.5)', 'rgba(214, 15, 214, 0.5)'], num = 0
+        let arrColores = ['rgba(66, 5, 66, 1)', 'rgba(214, 15, 214, 1)'], num = 0
         for(u in diccionario){
             for(i in diccionario[u]){
                 if(i == 'div'){
@@ -43,12 +43,13 @@ function accionDagAndDrop(){
     } else {
         dragAndDropEnUso = 'no'
         //arrObjetos = []
-        textoBotonEdicion = 'modo edicion activado', colorBotonEdicion = 'gren', detenerOnclickModal = 'no'
-        
+        //textoBotonEdicion = 'edicion', 
+        //colorBotonEdicion = 'gren', detenerOnclickModal = 'no'
+        //document.getElementById('cambiarEditar').style.background = colorBotonEdicion
         traducirDiccionario('porAhora')
         document.getElementById('cambiarDragAndDrop').style.background = 'red'
-        setTimeout(actBotonEditar, 80)
-    } 
+    }
+    setTimeout(actBotonEditar, 1000)
 }
 
 function cambioUbicacion(id){
@@ -149,6 +150,7 @@ function cambioUbicacion(id){
                 console.log(code);
                 diccionario = code
                 console.log(diccionario);
+                aderirHistorial(diccionario)
             } 
             dragAndDropEnUso = 'no'
             accionDagAndDrop()
@@ -162,7 +164,6 @@ function activarBanderaCambioUbicacion(){
     console.log(`activarBanderaCambioUbicacion, banderaCambioUbicacion: ${banderaCambioUbicacion}`);
 }
 
-
 function renderizarDicc(){
     //banderaCambioUbicacion = 0
         let cod = ''
@@ -173,6 +174,6 @@ function renderizarDicc(){
                 }); `
             }
         }
-        console.log(cod);
+        //console.log(cod);
         eval(cod)
 }

@@ -1,26 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <!--meta http-equiv="X-UA-Compatible" content="IE=edge"-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/c.css' ) }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
-    <link id="linkLetra" href='https://fonts.googleapis.com/css2?family=Dancing+Script' rel='stylesheet'>
-    <title>Document</title>
+        <meta charset="UTF-8">
+        <!--meta http-equiv="X-UA-Compatible" content="IE=edge"-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/c.css' ) }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+        <link id="linkLetra" href='https://fonts.googleapis.com/css2?family=Dancing+Script' rel='stylesheet'>
+        <title>Document</title>
 </head>
-<body onload="arranque()">
-        <!--div id="padre" style="position:relative;"--> 
-        <!--div-- style='display: flex; justify-content: center; text-align: center; '-->
-            
-            
-                <div id="editor"></div>
-                
-                <div id="porAhora" style="background: white; width: 100%;"></div><!--para usar z-index las cordenadas deben tener position absolute-->
-                <div id="root" style="z-index: 1000; position: absolute; top: 0; left: 0; right: 0; margin: 0 auto;"></div>  
-            
-        <!--div-->
-        <!--/div-->
+<body onload="arranque( '{{diccionario}}', '{{styleBody}}' )">
+
+        <div id="editor"></div>
+        <div style="display: flex;">
+                <div id="root"></div>  <!--div>style="z-index: 1000; position: absolute; top: 0; left: 0; right: 0; margin: 0 auto;"></--div-->   
+                <div id="porAhora" style="background: white; width: 100%; min-width: 200px;  overflow-y: auto;"></div>
+        </div>
+
 </body>
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/bloque.js') }}"></script>

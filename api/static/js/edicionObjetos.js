@@ -19,7 +19,7 @@ function modalAtributos(bloqueID){
         }
     }
 
-    
+    console.log(arrContenidos);
     let codArre = ``
     codArre += `
     <div style="margin: 2%; display:block; justify-content: space-between;"> 
@@ -27,13 +27,18 @@ function modalAtributos(bloqueID){
         for (let u = 0; u < arrTitulos.length; u++) {
 
                 let acc = "`", id= `${llavePrincipal}$${tipo}$${arrTitulos[u]}`, idItem = `${acc}${id}${acc}`, nombreDicPadre = `'${arrContenidos[0][0]}'`
-                if(arrTitulos[u] != 'id'){// no me deja mostrar el ID ya que no tiene lògica que lo modifique 
+                
+                nombreDicPadre = buscarCaracterParaReemplazar(nombreDicPadre, '<', '')// lo hago porque los codigos embebidos pueden dar problemas
+                nombreDicPadre = buscarCaracterParaReemplazar(nombreDicPadre, '>', '')
+                nombreDicPadre = buscarCaracterParaReemplazar(nombreDicPadre, '"', `'`)
+
+                if(arrTitulos[u] != 'id' && arrTitulos[u] != 'codigo'){// no me deja mostrar el ID ya que no tiene lògica que lo modifique 
                     codArre += `
                     <div id=${arrTitulos[u]}></div>
                     <div style="max-height: 300px; overflow-y: auto; padding-right: 1%; padding-left: 1%; padding-bottom: 1%; border-radius: 0.5em; background: #1e7070; color:white;">
                         <div style="position: sticky; top: 0; z-index: 1; padding-top:1%; background: #1e7070; display:flex; justify-content: space-between;">
                             <h3>${arrTitulos[u]}</h3>`
-                        if(arrTitulos[u] != 'tipo' && arrTitulos[u] != 'eventos' && arrTitulos[u] != 'style' && arrTitulos[u] != 'crearNuevo'){
+                        if(arrTitulos[u] != 'tipo' && arrTitulos[u] != 'eventos' && arrTitulos[u] != 'style' && arrTitulos[u] != 'crearNuevo'  && arrTitulos[u] != 'borrar'  && arrTitulos[u] != 'codigo' && arrTitulos[u] != 'codigoEmbebido'){
                             codArre += `
                             <img class='opcionSeleccionable' style="border-radius: 50%; width: 50px; height: 50px;" onclick="crearItem(${idItem}, ${nombreDicPadre})"  src="https://res.cloudinary.com/dplncudbq/image/upload/v1669597776/nuevo_dwrcbu.png">`
                         }
@@ -65,7 +70,7 @@ function modalAtributos(bloqueID){
 }
 
 function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreDicPadre){
-    //console.log(`entra ` + text);
+    
     let arrClases = [' ', 'opcionSeleccionable ', 'sombra ', 'anchoMinimo ', 'anchoMaximo ', 'alturaMinina ', 'alturaMaxima ', 'mi ', 'efectoResaltar ', 'organizarPorFilas ', 'organizarPorColumnas ', 'color ', 'girar90 ', 'centrar ', 'espacioEquilatero ']
     let arrTipos = ['p', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7' ]
     let arrDisplay = ['flex', 'block']
@@ -202,7 +207,7 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
         cod += `${retornarSelects(id, arreObjetosCreables, 'onchange="crearNuevoObjeto(this.id, this.value)"', opcionActual)}`
 
     } else if(text == 'borrar'){
-
+        
         cod += `<img  style="border-radius: 50%; width: 50px; height: 50px; cursor:pointer;" onclick="borrarObjeto('${id}')" src="https://res.cloudinary.com/dplncudbq/image/upload/v1669597775/borrar_yw19rd.png">`
     
     } else if(text == 'linkSlideGalery'){
@@ -254,11 +259,27 @@ function decidirAccionDetallaOpciones(opcionActual, text, id, idItem, i, nombreD
         cod += cod += `<h3>${opcionActual[0]}</h3>`
         cod += retornarInput(opcionActual[1], `${id}$1`)
     
-    } else {
+    } else if(text == 'codigoEmbebido'){
+        cod += `<input style="border-radius:0.5em; border:none; width: 100%; height: 20px; margin-top: 15px; margin-right: 15px;" type="text" name="" value="" id="${id}input">`
+        cod += `<img class='opcionSeleccionable' style="border-radius: 50%; width: 50px; height: 50px;" onclick="inyectarCodigoEmbebido('${id}', )"  src="https://res.cloudinary.com/dplncudbq/image/upload/v1669597776/nuevo_dwrcbu.png">`
+
+    } else if(text == 'codigo'){
+        opcionActual = buscarCaracterParaReemplazar(opcionActual, '<', '')
+        opcionActual = buscarCaracterParaReemplazar(opcionActual, '>', '')
+        opcionActual = buscarCaracterParaReemplazar(opcionActual, '"', `'`)
+        cod += retornarInput(opcionActual, id)
+    } else{
+
         cod += retornarInput(opcionActual, id)
         cod += retornarBotonBorrar(`'${id}'`, i, nombreDicPadre, opcionActual)
+    
     }
     return cod
+}
+
+function inyectarCodigoEmbebido(id){
+    let text = document.getElementById(`${id}input`).value
+    crearNuevoObjeto(id, 'codEmbebido', text)
 }
 
 function actualizarOpcionFondo(valor, u, i){
@@ -298,11 +319,12 @@ function borrarObjeto(id){
         desactivarModal()
         console.log(`borrarObjeto: diccionario:`);
         console.log(diccionario);
+        aderirHistorial(diccionario, 'arranque')
         avisoCorto(`se elminò el objeto con exito `)
     }
 }
 
-function crearNuevoObjeto(id, valor){
+function crearNuevoObjeto(id, valor, codigoEmbebido){
     if(valor != ''){
         //console.log(diccionario);
         //console.log(`crearNuevoObjeto, id: ${id}, valor: ${valor}`);
@@ -352,9 +374,10 @@ function crearNuevoObjeto(id, valor){
             cod = {"div":{
                 "id": [`${idPaso}`], 
                 "crearNuevo": [''],
+                "codigoEmbebido": [''],
                 "class": ["centrar ", 'organizarPorFilas '],
                 "eventos": [[''], [''], ['']],
-                "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 97%"], ["alto", "height: 80%"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(107, 107, 107, 1)'], ['mostrar en modo', 'display: flex']],
+                "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 0px", "padding-right: 0px", "padding-left: 0px", "padding-bottom: 0px"],  ["ancho", "width: 100%"], ["alto", "min-height: 10px;"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(22, 45, 162, 0.52)'], ['fondo', 'background: rgba(107, 107, 107, 0)'], ['mostrar en modo', 'display: flex']],
                 "absorber": ["si"],
                 "borrar": [''] 
             }}
@@ -378,6 +401,17 @@ function crearNuevoObjeto(id, valor){
                 "eventosImagenes": [[''], [''], ['']],
                 "linkBotonesOpciones": [['boton adelante', 'https://res.cloudinary.com/dplncudbq/image/upload/v1676133410/mias/adelante_ztqvpx.png'], ['boton atras', 'https://res.cloudinary.com/dplncudbq/image/upload/v1676133407/mias/atras_lfyntg.png'], ['item no seleccionado', 'https://res.cloudinary.com/dplncudbq/image/upload/v1676133403/mias/circuloVacio_pfaat6.png'], ['item seleccionado', 'https://res.cloudinary.com/dplncudbq/image/upload/v1676133405/mias/circuloRelleno_dehcpk.png']], 
                 "coordenadaInicio" : [0],
+                "borrar": [''] 
+            }}
+        } else if(valor == 'codEmbebido'){
+            id = `${id}input`
+            //console.log(codigoEmbebido);
+            cod = {'codEmbebido': {
+                "id": [`${idPaso}`],
+                'codigo': [`${codigoEmbebido}`],
+                "class": ["centrar "],
+                "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: fit-content"], ["alto", "height: fit-content"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgb(68, 30, 30, 0.7)'], ['fondo', 'background: rgb(82, 131, 128, 0.9)'], ['mostrar en modo', 'display: block']],
+                "eventos": [[''], [''], ['']],
                 "borrar": [''] 
             }}
         }
@@ -426,6 +460,8 @@ function crearNuevoObjeto(id, valor){
         diccionario = arr
         traducirDiccionario('porAhora')
         avisoCorto(`se creò un ${valor}`)
+        console.log(diccionario);
+        aderirHistorial(diccionario)
         document.getElementById(id).value = ''
     }
 }
@@ -477,6 +513,8 @@ function actualizarColor(idDicc, idColor, idTransparencia, palabra, i, accion, i
         actualizarDicc(idDicc, ref + color)
     } else {
         let val = document.getElementById(idInput).value
+        console.log(`background-image: url(${acc}${val}${acc})`);
+        //let url = `background-image: url(${acc}${val}${acc})`
         let url = `background-image: url(${acc}${val}${acc})`
         actualizarDicc(idDicc, url)
         //traducirDiccionario('porAhora')
@@ -484,7 +522,8 @@ function actualizarColor(idDicc, idColor, idTransparencia, palabra, i, accion, i
 }
 
 function hexToRgba(hex, transparencia) {
-    console.log(`hex: ${hex}`);
+    //console.log(`hex: ${hex}`);
+    transparencia = parseInt(transparencia)
     let r = parseInt(hex.substring(1, 3), 16);
     let g = parseInt(hex.substring(3, 5), 16);
     let b = parseInt(hex.substring(5, 7), 16);

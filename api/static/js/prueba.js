@@ -1,41 +1,35 @@
-let medidaAnchoPantallaPadre = 100, tipoDeletra = 'Open Sans'
+let historialStyleBody = [], tipoDeletra = 'Open Sans', fondoContenedorColorBody = '#ffffff', fondoContenedorImagenBody = '',  transparenciaFondoContenedorBody = 10
+let congelarActualizacionPantalla = 'no', medidaAnchoPantallaPadre = 100, historial = [], numHistorialActual = 0
 let arrAccEventos = []
-let acc = "`"
+let acc = "`", dede = []
 
 let diccionario =  [   // todo objeto se le debe inyectar el  `eventoUnico(this.id, 'modalAtributos(${mirar[0]})')` para poder ser operado en el modal en la posicion 0
                     {"div":{
                         "id": ["contenedor0"],
                         "crearNuevo": [''], 
+                        "codigoEmbebido": [''],
                         "class": ["centrar ", 'organizarPorFilas '],
                         "eventos": [[''], [''], ['']],
-                        "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 20px", "padding-right: 20px", "padding-left: 20px", "padding-bottom: 20px"],  ["ancho", "width: 97%"], ["alto", "height: 100%"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(255, 255, 255, 1)'], ['fondo', 'background: rgba(207, 207, 207, 1)'], ['mostrar en modo', 'display: flex']],
+                        "style": [['margen',"margin-top: 0px", "margin-right: 0px", "margin-left: 0px", "margin-bottom: 0px"], ['relleno',"padding-top: 0px", "padding-right: 0px", "padding-left: 0px", "padding-bottom: 0px"],  ["ancho", "width: 100%"], ["alto", "min-height: 10px;"], ['radio de borde',"border-top-left-radius: 0em", "border-top-right-radius: 0em", "border-bottom-left-radius: 0em", "border-bottom-right-radius: 0em"], ['color letra', 'color: rgba(255, 255, 255, 1)'], ['fondo', 'background: rgba(207, 207, 207, 0)'], ['mostrar en modo', 'display: flex']],
                         "absorber": ["si"],
                         "borrar": [''] 
                     }}                  
-            ]                    
-let detenerOnclickModal = "no"                    
+            ] 
+            
+let detenerOnclickModal = "no"  
+                
 
 function traducirDiccionario(id){
     console.log(`detenerOnclickModal: ${detenerOnclickModal}`);
     console.log(`dragAndDropEnUso: ${dragAndDropEnUso}`);
 
+
+    document.getElementById('enviarDicc').value = JSON.stringify(diccionario);
+    actualizarDiccStyleBody()
+    actualizarStyleBody(historialStyleBody[numHistorialActual])
+    
     let codigoHTML = ""
 
-    /*codigoHTML += ` <div style='background: gold;  z-index: 999; width: 100%;  justify-content: space-around; border: none; display: flex;'>
-                        ${retornarBotonDetenerOnclickModal()}
-                        ${retornarBotonDragAndDrop()}
-                        <div>
-                            <p>Tipo de letra</p>
-                            ${retornarTipoDeLetra()}
-                        </div>
-                        <div>
-                            <p>Responsive</p>
-                            <input onchange= "actualizarAnchoContenedorPadre(this.value)" class='inputRange' type="range" style="background: none; margin-top: 20px;" id='' value='${medidaAnchoPantallaPadre}' name="" min="0" max="100">
-                        </div>
-                    </div> `*/
-
-
-    //let num = 5000
     for (llavePadre in diccionario) {
         for (llaveHija in diccionario[llavePadre]){
             let dicc = diccionario[llavePadre][llaveHija]
@@ -47,18 +41,69 @@ function traducirDiccionario(id){
     }
 
     document.getElementById(id).innerHTML = codigoHTML 
-    
-
-    //console.log(`---------------------------`);
-    
 }
 
-function actualizarAnchoContenedorPadre(valor){
+function actualizarDiccStyleBody(){
+    document.getElementById('styleBody').value = historialStyleBody[numHistorialActual];
+}
+
+function aderirHistorial(cod, acc){
+    DiccStyleBody = {'tipoDeletra': tipoDeletra, 'fondoContenedorColorBody': fondoContenedorColorBody, 'transparenciaFondoContenedorBody': transparenciaFondoContenedorBody, 'fondoContenedorImagenBody': fondoContenedorImagenBody}
+    historialStyleBody.push(JSON.stringify(DiccStyleBody))
+    historial.push(JSON.stringify(cod))
+    if(acc != 'arranque'){
+        numHistorialActual += 1
+    }
+    //console.log(`numHistorialActual: ${numHistorialActual}`);
+    //console.log(`historial: ${historial}`);
+    //console.log(`historialStyleBody: ${historialStyleBody}`);
+}
+
+function historialDicc(acc){
+    if(acc == 'adelante'){
+        if(historial.length - 1 >= numHistorialActual + 1){
+            numHistorialActual += 1
+        } else {
+            saludar('adelante, no hay mas')
+        }
+    } else if(acc == 'atras'){
+        if(numHistorialActual - 1 >= 0){
+            numHistorialActual -= 1
+        } else {
+            saludar('atras, no hay mas')
+        }
+    }
+    
+    diccionario = eval(historial[numHistorialActual])
+    actualizarStyleBody(historialStyleBody[numHistorialActual])
+    traducirDiccionario('porAhora')
+}
+
+async function actualizarAnchoContenedorPadre(valor){
+    congelarActualizacionPantalla = 'si'
     let divPadre = document.getElementById('porAhora')
     divPadre.style.transition = '2s'
+
+    anchuraEnPixeles = divPadre.offsetWidth;
+    let anchuraEnPorcentajeEnPixeles = anchuraEnPixeles * (valor / 100);
+    //let anchuraEnPorcentajeEnPorcentaje = (anchuraEnPorcentajeEnPixeles / anchuraEnPixeles) * 100;
+
     divPadre.style.width = `${valor}%`
     medidaAnchoPantallaPadre = valor
-    divPadre.style.marginLeft = `${(100 - parseInt(valor)) / 2}%`
+
+    let desicionMargin = ''
+    console.log(estadoModal);
+    if(estadoModal == 'activado'){
+        desicionMargin = 'marginRight'
+        divPadre.style.marginLeft = '0px';
+    } else {
+        desicionMargin = 'marginLeft'
+        divPadre.style.marginRight = '0px';
+    }
+    eval(`divPadre.style.${desicionMargin} = '${(100 - parseInt(valor)) / 2}%'`)
+    congelarActualizacionPantalla = 'no'
+    await wait(3000)
+    traducirDiccionario('porAhora')
 }
 
 /*function mirar(arr){
@@ -143,11 +188,17 @@ function decidirAccionArmadoComponents(llaveHija, dicc, codigoHTML){
 
     } else if(llaveHija == "text"){
         
-        let concatenado = `id = "${dicc['id']}" style = "${quitarComasDeArreglo(unificarArreglos(dicc['style'], '; '))}" class = "${quitarComasDeArreglo(dicc['class'])}" ${quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id']))}`
-        return texto(dicc['tipo'], concatenado, dicc['texto'], `${separarPalabra(dicc['style'][5], 'color letra')[1]}; ${separarPalabra(dicc['style'][6], 'fondo')[1]};`, `${quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id']))}`, `${dicc['id']}`)
+        let concatenado = `id = "${dicc['id']}" class = "${quitarComasDeArreglo(dicc['class'])}" ${quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id']))}`
+        return texto(dicc['tipo'], concatenado, dicc['texto'], `${separarPalabra(dicc['style'][5], 'color letra')[1]}; ${separarPalabra(dicc['style'][6], 'fondo')[1]};`, `${quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id']))}`, `${dicc['id']}`, `${quitarComasDeArreglo(unificarArreglos(dicc['style'], '; '))}`)
         
     } else if(llaveHija == 'slideGalery'){
-        return slideGalery(dicc['id'][0], quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id'])), quitarComasDeArreglo(dicc['class']), buscarCaracterParaReemplazar(quitarComasDeArreglo(unificarArreglos(dicc['style'], '; ')), '`', `'`), dicc)
+
+        return slideGalery(dicc['id'][0], quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id'])), quitarComasDeArreglo(dicc['class']), quitarComasDeArreglo(unificarArreglos(dicc['style'], '; ')), dicc)
+    
+    } else if(llaveHija == "codEmbebido"){
+        
+        return codEmbebido(dicc['id'][0], quitarComasDeArreglo(agregarEventos(dicc['eventos'], dicc['id'])), quitarComasDeArreglo(dicc['class']), quitarComasDeArreglo(unificarArreglos(dicc['style'], '; ')), dicc['codigo'][0])
+        
     }
 }
 
@@ -197,20 +248,23 @@ function agregarEventos(arr, id){
                     colorLetraUsuario = separarPalabra(colorLetraUsuario, ':')[1]
                     
                     if(Object.keys(diccionario[i]) == 'div'){
-                        colorFondoPaso = 'rgba(173, 33, 173, 0.5)'
-                        colorLetraPaso = 'rgba(173, 33, 173, 0.5)'
+                        colorFondoPaso = 'rgba(173, 33, 173, 1)'
+                        colorLetraPaso = 'rgba(173, 33, 173, 1)'
                     } else if(Object.keys(diccionario[i]) == 'text'){
-                        colorFondoPaso = 'rgba(33, 141, 173, 0.9)'
-                        colorLetraPaso = 'rgba(255, 255, 255, 0.9)'
+                        colorFondoPaso = 'rgba(33, 141, 173, 1)'
+                        colorLetraPaso = 'rgba(255, 255, 255, 1)'
                     } else if(Object.keys(diccionario[i]) == 'img'){
-                        colorFondoPaso = 'rgba(77, 173, 33, 0.9)'
-                        colorLetraPaso = 'rgba(77, 173, 33, 0.9)'
+                        colorFondoPaso = 'rgba(77, 173, 33, 1)'
+                        colorLetraPaso = 'rgba(77, 173, 33, 1)'
                     } else if(Object.keys(diccionario[i]) == 'video'){
-                        colorFondoPaso = 'rgba(221, 224, 11, 0.9)'
-                        colorLetraPaso = 'rgba(221, 224, 11, 0.9)'
+                        colorFondoPaso = 'rgba(221, 224, 11, 1)'
+                        colorLetraPaso = 'rgba(221, 224, 11, 1)'
                     } else if(Object.keys(diccionario[i]) == 'slideGalery'){
-                        colorFondoPaso = 'rgba(50, 50, 11, 0.9)'
-                        colorLetraPaso = 'rgba(221, 224, 11, 0.9)'
+                        colorFondoPaso = 'rgba(50, 50, 11, 1)'
+                        colorLetraPaso = 'rgba(221, 224, 11, 1)'
+                    } else if(Object.keys(diccionario[i]) == 'codEmbebido'){
+                        colorFondoPaso = 'rgba(20, 75, 61, 1)'
+                        colorLetraPaso = 'rgba(0, 146, 110, 1)'
                     }
 
                 }
@@ -221,6 +275,10 @@ function agregarEventos(arr, id){
         
         onmouseover += `cambiarColor(${acc}${id}${acc},  ${acc}1${acc}, ${acc}${colorFondoPaso}${acc})/
                         cambiarColorLetra(${acc}${id}${acc},  ${acc}1${acc}, ${acc}${colorLetraPaso}${acc})/`
+
+        if(tipoFondoUsuario == 'cambiarImagen'){
+            onmouseout  += `cambiarColor(${acc}${id}${acc},  ${acc}1${acc}, ${acc}'rgba(0, 146, 110, 0)'${acc})/`
+        }                 
 
         onmouseout  += `${tipoFondoUsuario}(${acc}${id}${acc},  ${acc}1${acc}, ${acc}${colorFondoUSuario}${acc})/
                         cambiarColorLetra(${acc}${id}${acc},  ${acc}1${acc}, ${acc}${colorLetraUsuario}${acc})/`
@@ -406,6 +464,7 @@ function borrarItem(id, codItem, idPadre, text){
     traducirDiccionario('porAhora')
     modalAtributos(idPadre)
     idElementoEnUso = arr[2]
+    aderirHistorial(diccionario)
     setTimeout(reubicar, 1000)
 }
 
@@ -441,6 +500,7 @@ function crearItem(id, idPadre){
     modalAtributos(idPadre)
     idElementoEnUso = arr[2]
     setTimeout(reubicar, 1000)
+    aderirHistorial(diccionario)
     console.log(diccionario);
 }
 

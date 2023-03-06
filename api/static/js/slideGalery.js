@@ -4,11 +4,12 @@ let detenerMostrarSlideGalery = 'no', diccBotonesOpciones = {}
 
 
 function objetoSlideGalery(idSeccion, Imagenes, textos, eventosContenedor, estilosGenerales, clases, textEstilosImagenes, maximaCantidadImagenesMostrar, eventosImagenes, dicc){
-    
-    let text = ''
+    //console.log(estilosGenerales);
+
+    /*let text = ''
     for (let u = 0; u < eventosImagenes.length; u++) {
         text += buscarCaracterParaReemplazar(eventosImagenes[u], ',', '')
-    }
+    }*/
 
     let numMaxIma = parseInt(separarTextoPorPalabras(maximaCantidadImagenesMostrar, 'maximoimagenes:')[1]);
     
@@ -16,7 +17,7 @@ function objetoSlideGalery(idSeccion, Imagenes, textos, eventosContenedor, estil
     let arretextos = retornarArregloAPartirDeCarater(textos, '&')
     
     let alturaPantalla = window.innerHeight; //screen.height;
-    let anchoPantalla = window.innerWidth; //screen.width;
+    //let anchoPantalla = window.innerWidth; //screen.width;
     var divPadre = document.getElementById("porAhora");
     let anchoPantallaDisponible = (divPadre.offsetWidth / 100) * 80; // le restamos 4% de los 2% padding, tambièn le doy un pequeño margen de error
     
@@ -31,8 +32,8 @@ function objetoSlideGalery(idSeccion, Imagenes, textos, eventosContenedor, estil
     }
 
     let cod = ""
-    let puntero = 0; 
-    let arrePaso = []
+    /*let puntero = 0; 
+    let arrePaso = []*/
 
     for (let u = 0; u < dicc['linkBotonesOpciones'].length; u++) {
         diccBotonesOpciones[dicc['linkBotonesOpciones'][u][0]] = dicc['linkBotonesOpciones'][u][1]
@@ -57,16 +58,16 @@ function objetoSlideGalery(idSeccion, Imagenes, textos, eventosContenedor, estil
 
     //inicio de creacion de div que se sobrepone para usar flechas y botones
     cod += ` 
-        <div id='slideGalery${IdSeccionPaso}' style='${estilosGenerales}' ${eventosContenedor} class="${clases}">                                                                                                       
+        <div id='slideGalery${IdSeccionPaso}' style="${estilosGenerales}" ${eventosContenedor} class="${clases}">                                                                                                       
         `
         cod += 
             `
             <div style='display: flex; align-items: center; justify-content: center;'>
             `
-            for (let i = primeraReferencia; i < anchoPantallaDisponible && i < (i + primeraReferencia); i++) {
+            /*for (let i = primeraReferencia; i < anchoPantallaDisponible && i < (i + primeraReferencia); i++) {
                 puntero += 1
                 i += primeraReferencia
-            }
+            }*/
 
             //console.log(`widthOpciones arriba: ${widthOpciones}`);
             let vecesPasadas = 0
@@ -129,7 +130,7 @@ function objetoSlideGalery(idSeccion, Imagenes, textos, eventosContenedor, estil
         </div>           
         `
 
-     //Actualizar arreglo
+     /*/Actualizar arreglo
     let pasos = 0
     while(pasos < arreImagenes.length){
         if(puntero < arreImagenes.length){
@@ -140,7 +141,7 @@ function objetoSlideGalery(idSeccion, Imagenes, textos, eventosContenedor, estil
         }
         puntero += 1
         pasos += 1
-    }
+    }*/
 
     return cod
 }
@@ -233,34 +234,13 @@ function reorganizarContenido(id, coordenadaInicio, accion){
 function retornarLinkImagenes(id, nombreLlave, coordenadaInicio, accion){
     let arr = []//, arreId = []
     for(u in diccionario){
-        //if(Object.keys(diccionario[u])[0] == 'slideGalery'){
-            for(i in diccionario[u]){
-                //console.log(diccionario[u][i]['linkSlideGalery']);
-                if(diccionario[u][i]['id'] == id){
-                    //arreId.push(diccionario[u][i]['id'])
-                    arr = diccionario[u][i][nombreLlave]
-                    /* for (let e = 0; e < diccionario[u][i][nombreLlave].length; e++) {
-                        arr.push(diccionario[u][i][nombreLlave][e])
-                    }*/
-                    
-                    
-                    /*console.log(arr);
-                    console.log(`XDXDXDXDXD`);
-                    console.log(retornarReorganizadoDesdeIndice(arr, coordenadaInicio, accion));*/
-
-                    //diccionario[u][i][nombreLlave] = retornarReorganizadoDesdeIndice(arr, coordenadaInicio, accion)
-                    
-                    // solo para coordenadaInicio
-                    diccionario[u][i]['coordenadaInicio'] = coordenadaInicio
-                    return diccionario[u][i][nombreLlave]
-                    //console.log(diccionario);
-                
-                
-                
-                }
+        for(i in diccionario[u]){
+            if(diccionario[u][i]['id'] == id){
+                arr = diccionario[u][i][nombreLlave]
+                diccionario[u][i]['coordenadaInicio'] = coordenadaInicio
+                return diccionario[u][i][nombreLlave]
             }
-            //arr = []
-        //}
+        }
     }
     return arr
 }
@@ -332,12 +312,19 @@ setInterval(recorrerObjetosSlideGalery, 2000)
 
 
 const divParaObservar = document.getElementById('porAhora');
+//const padreBody =  document.body
 
 // Crear una instancia del objeto ResizeObserver
 const observer = new ResizeObserver(entries => {
-    traducirDiccionario('porAhora')
+    if(congelarActualizacionPantalla == 'si'){
+        console.log('traduciendo diccionario');
+        traducirDiccionario('porAhora')
+    } else {
+        //console.log(`congelado`);
+    }
 });
 
-// Iniciar la observación del div
+
 observer.observe(divParaObservar);
+//observer.observe(padreBody)
 

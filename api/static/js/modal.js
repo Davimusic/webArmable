@@ -11,8 +11,10 @@ function ActivarModal(contenido){
     } else {
 		if(contenido != undefined){
 			document.getElementById("root").innerHTML = modal(contenido)
-			setTimeout(activarInputs, 200)// esta funcion activa todo texto que tenga un link para que sea visible por le usuario
-			setTimeout(actualizarModal, 100)
+			activarInputs()
+			actualizarModal()
+			/*setTimeout(activarInputs, 0)// esta funcion activa todo texto que tenga un link para que sea visible por le usuario
+			setTimeout(actualizarModal, 0)*/
 		} 
     }
 }
@@ -23,21 +25,24 @@ function actualizarModal(){
     setTimeout(mostrarModal, 100)
 }
 
-function mostrarModal(){
+async function mostrarModal(){
 	let idModal = document.getElementById("modala");
-	idModal.style.boxShadow = "0px -1px 24px 0px rgba(0,0,0,0.75)";
-	idModal.style.height = "fit-content";
+	let idPanelEdicion = document.getElementById('editor')
+	idModal.style.height = `${window.innerHeight - idPanelEdicion.offsetHeight}px`//"50%";
+	idModal.style.width = "95%";
+    //await wait(1000)
+	//idModal.style.transition = "1s";
 	idModal.style.opacity = "1";
-	idModal.style.transition = "1s";
 }
 
 function desactivarModal(){
 	let idModal = document.getElementById("modala");
-	idModal.style.transition = "1s";
+	//idModal.style.transition = "1s";
 	idModal.style.height = "0px";
 	idModal.style.opacity = "0";
 	estadoModal = 'desactivado'
-	setTimeout(esconderModal, 500)
+	esconderModal()
+	//setTimeout(esconderModal, 0)
 }
 
 function esconderModal(){
@@ -54,8 +59,8 @@ function modal(contenido){
 	} 
 	
 	cod = `
-	<div style = "background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(5px); display: none; padding: 2%; opacity: 0; height: 0px; width: 96%;" id="modala">
-		<header style = "position: sticky; top: 0; z-index: 100; border-radius: 0.5em; color:white; padding: 1%; height:fit-content; background: #1e7070; display:flex; justify-content: space-between;">
+	<div style = "background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(5px); display: none; padding-left: 2%; padding-right: 2%; opacity: 0; height: 0%; width: 0%; overflow-y: scroll;" id="modala">
+		<header style = "position: sticky; top: 0; z-index: 100; border-radius: 0.5em; color:white; padding: 1%; padding-top: 0%; height:fit-content; background: #1e7070; display:flex; justify-content: space-between;">
 			<div style="display:flex; justify-content: space-between;">
 				<h3>Usando bloque de: ${bloqueEnUso}</h3>
 			</div>
@@ -95,6 +100,7 @@ function crearArreglo(text, referencia){
 }
 
 function actualizarDicc(idRuta, Valor){
+	let cloneDiccionarioPaso = JSON.stringify(diccionario)
 	console.log(`actualizarDicc: idRuta: ${idRuta}, Valor: ${Valor}`);
 	
 	let nuevoValor = Valor
@@ -110,14 +116,19 @@ function actualizarDicc(idRuta, Valor){
 		eval(`diccionario[${arr[0]}].${arr[1]}.${arr[2]}[${arr[3]}] = '${nuevoValor}';`)
 	} else { // pensado para los que tienen arreglos en la parte final de el diccionario
 		console.log(`diccionario[${arr[0]}].${arr[1]}.${arr[2]}[${arr[3]}][${arr[4]}] = '${nuevoValor}';`);
+		console.log(diccionario);
 		eval(`diccionario[${arr[0]}].${arr[1]}.${arr[2]}[${arr[3]}][${arr[4]}] = '${nuevoValor}';`)
 	}
 
 
-	console.log(diccionario);
+	//console.log(diccionario);
+    //console.log(JSON.stringify(diccionario));
+	//console.log(cloneDiccionarioPaso);
+	if(JSON.stringify(diccionario) != cloneDiccionarioPaso){
+		aderirHistorial(diccionario)
+	}
 	traducirDiccionario('porAhora')
 }
-
 
 function retornarToast(){
 	let cod = `<H3 id='toast' style='display: none; color: black; background: white;'></H3>`
